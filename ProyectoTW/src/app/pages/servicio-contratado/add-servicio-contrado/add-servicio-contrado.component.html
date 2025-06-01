@@ -1,0 +1,113 @@
+<section class="vh-75" style="background-color: #eee">
+  <div class="container h-75">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-6 col-xl-11">
+        <div class="card text-black" style="border-radius: 25px">
+          <div class="card-body p-md-2">
+            <div class="d-flex justify-content-center order-1 order-lg-2">
+              <img
+                src="img/BG_logo.png "
+                class="img-fluid"
+                alt="Sample image"
+                width="200"
+                height="150"
+              />
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
+                  {{ title }}
+                </p>
+
+                <form class="mx-1 mx-md-4" [formGroup]="servicioForm">
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fa-solid fa-truck-fast fa-lg me-3 fa-fw"></i>
+                    <div
+                      data-mdb-input-init
+                      class="form-outline flex-fill mb-0"
+                    >
+                      <select
+                        class="form-select form-select-sm"
+                        formControlName="servicio_id"
+                        aria-label=".form-select-sm example"
+                      >
+                        <option disabled selected value="">
+                          Seleccione el Servicio
+                        </option>
+                        @for (lr of serviciosDetalle; track lr.servicio_id) {
+                            <option value="{{lr.servicio_id}}">{{lr.descripcion}}</option>
+                          }
+                      </select>
+                      <label class="form-label" for="form3Example4c">Servicio</label>
+                    </div>
+                  </div>
+                  
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fa-solid fa-user fa-lg me-3 fa-fw"></i>
+                    <div
+                      data-mdb-input-init
+                      class="form-outline flex-fill mb-0"
+                    >
+                      <select
+                        class="form-select form-select-sm"
+                        formControlName="cliente_id"
+                        aria-label=".form-select-sm example"
+                      >
+                        <option disabled selected value="">
+                          Seleccione el Cliente
+                        </option>
+                        @for (lr of clientes; track lr.cliente_id) {
+                            <option value="{{lr.cliente_id}}">{{lr.nombre}}</option>
+                          }
+                      </select>
+                      <label class="form-label" for="form3Example4c">Cliente</label>
+                    </div>
+                  </div>
+
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fa-solid fa-code-pull-request fa-lg me-3 fa-fw"></i>
+                    <div
+                      data-mdb-input-init
+                      class="form-outline flex-fill mb-0"
+                    >
+                      <select
+                        class="form-select form-select-sm"
+                        formControlName="repuesto_id"
+                        aria-label=".form-select-sm example"
+                      >
+                        <option disabled selected value="">
+                          Seleccione el Repuesto
+                        </option>
+                        @for (lr of repuestos; track lr.repuesto_id) {
+                            <option value="{{lr.repuesto_id}}">{{lr.nombre}}</option>
+                          }
+                      </select>
+                      <label class="form-label" for="form3Example4c">Repuesto</label>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fa-solid fa-chart-gantt fa-lg me-3 fa-fw"></i>
+                    <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                      <input type="number" id="form3Example4c" class="form-control" formControlName="cantidad"/>
+                      <label class="form-label" for="form3Example4c">Cantidad</label>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-lg"
+                      (click)="create()"
+                    >
+                      {{ nameButtom }}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
