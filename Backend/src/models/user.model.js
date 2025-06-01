@@ -1,6 +1,7 @@
 const db = require('./../config/db');
 
 //Metodos
+//Crear usuario
 const createUser=async (nombre,email,password_hash,rol)=>{
     console.log("en modelo user");
     const query = {
