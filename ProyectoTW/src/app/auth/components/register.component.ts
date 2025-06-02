@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormBuilder,
@@ -20,7 +20,7 @@ export class RegisterComponent {
 
 
   registerForm: FormGroup;
-
+  showPassword: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -42,7 +42,7 @@ export class RegisterComponent {
       ]],
       rol: ['', Validators.required]
     });
-    
+
   }
 
   register() {
@@ -56,8 +56,8 @@ export class RegisterComponent {
         this.alertService.errorCreate;
       },
       complete: () => {
-          this.alertService.register();
-          this.router.navigate([' ']);
+        this.alertService.register();
+        this.router.navigate([' ']);
 
       },
     });
