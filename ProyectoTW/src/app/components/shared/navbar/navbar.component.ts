@@ -11,6 +11,7 @@ import { ChangeDetectorRef } from '@angular/core';
 export class NavbarComponent implements OnInit {
   token: boolean = false;
   userRole: string = '';
+  
 
   constructor(
     private authService: AuthService,
@@ -22,6 +23,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.checkUserRole();
+     this.userRole = this.authService.getUserRole();
   }
 
   // Función para verificar el estado del token

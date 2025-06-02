@@ -14,7 +14,7 @@ const create = async({nombre, telefono, email, direccion})=>{
 // Listar todos los clientes
 const findAllClientes = async () => {
     const query = {
-        text: 'SELECT * FROM listar_clientes();', // Llamada a la función almacenada
+        text: 'SELECT * FROM public.clientes;', // Llamada a la función almacenada
     };
     const { rows } = await db.query(query); // Ejecutar la llamada a la función
     return rows; // Retornar los resultados
