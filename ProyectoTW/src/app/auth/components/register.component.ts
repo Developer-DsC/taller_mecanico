@@ -28,11 +28,21 @@ export class RegisterComponent {
     private alertService: AlertService
   ) {
     this.registerForm = this.formBuilder.group({
-      nombre: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password_hash: ['', [Validators.required, Validators.minLength(8)]],
-      rol: ['', [Validators.required]],
+      nombre: ['', [
+        Validators.required,
+        Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$')  // Solo letras y espacios
+      ]],
+      email: ['', [
+        Validators.required,
+        Validators.email
+      ]],
+      password_hash: ['', [
+        Validators.required,
+        Validators.minLength(8)
+      ]],
+      rol: ['', Validators.required]
     });
+    
   }
 
   register() {
