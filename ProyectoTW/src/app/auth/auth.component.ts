@@ -12,6 +12,7 @@ import { AlertService } from '../services/aler.service';
 })
 export class AuthComponent {
  loginForm: FormGroup;
+ showPassword: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,

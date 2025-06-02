@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormBuilder,
@@ -23,6 +23,7 @@ export class RegisterComponent {
     currentUserRole: string = '';
   availableRoles: string[] = [];
   rolUsuario: string = '';
+  showPassword: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,9 +37,11 @@ export class RegisterComponent {
       password_hash: ['', [Validators.required, Validators.minLength(8)]],
       rol: [''],
     });
+
      this.authService.userRole$.subscribe((rol) => {
     this.rolUsuario = rol;
      });
+
   }
 
   ngOnInit(): void {
@@ -76,7 +79,12 @@ export class RegisterComponent {
       },
       complete: () => {
         this.alertService.register();
+
         this.router.navigate(['/home']);
+
+        this.router.navigate([' ']);
+
+
       },
     });
 
