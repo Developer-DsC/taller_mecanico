@@ -5,6 +5,7 @@ import { Observable, tap } from 'rxjs';
 import { Login } from '../models/login.model';
 import { LoginResponse } from '../interface/loginResponse';
 import { CookieService } from 'ngx-cookie-service';
+import { BehaviorSubject } from 'rxjs';
  
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,12 @@ import { CookieService } from 'ngx-cookie-service';
 export class AuthService {
   API_URL: String = 'http://localhost:3000/api/users'; // Use of best practices with environment variables
 
+  private userRoleSubject = new BehaviorSubject<string>('');
+  userRole$ = this.userRoleSubject.asObservable();
   constructor(
     private httpClient: HttpClient,
     private cokkieService: CookieService
-  ) {}
+  ) {this.setUserRoleFromToken();}
 
   signUp(register: Register): Observable<Register> {
     return this.httpClient.post<Register>(`${this.API_URL}/register`, register);
@@ -27,9 +30,24 @@ export class AuthService {
       .pipe(
         tap((data: LoginResponse) => {
           this.setTokenCookie(data.token);
+          this.setUserRoleFromToken();
         })
       );
   }
+
+  setUserRoleFromToken() {
+  const token = this.getTokenCookie();
+  if (!token) return;
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    console.log('Rol extraído del token:', payload.rol);
+    this.userRoleSubject.next(payload.rol); // ✅ ACTUALIZA EL SUBJECT
+  } catch (error) {
+    console.error('Error al decodificar el token en setUserRoleFromToken:', error);
+  }
+}
+
 
   setTokenCookie(token: string) {
     this.cokkieService.set('token', token);
@@ -41,8 +59,11 @@ export class AuthService {
 
   deleteTokenCookie(){
     this.cokkieService.deleteAll();
+    this.clearUserRole();
   }
-
+ clearUserRole() {
+    this.userRoleSubject.next('');
+  }
   getUserRole(): string {
     const token = this.getTokenCookie();
     if (!token) return '';
