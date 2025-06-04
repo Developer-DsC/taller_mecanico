@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, RouterOutlet, Routes } from '@angular/router';
 
 // Importa los componentes de las páginas
 import { ServiciosComponent } from './pages/servicios/servicios.component';
@@ -15,24 +15,32 @@ import { AddClienteComponent } from './pages/cliente/add-cliente/add-cliente.com
 import { ServicioContratadoComponent } from './pages/servicio-contratado/servicio-contratado.component';
 import { AddServicioContradoComponent } from './pages/servicio-contratado/add-servicio-contrado/add-servicio-contrado.component';
 const routes: Routes = [
-  { path: 'servicios', component: ServiciosComponent }, // Ruta para Servicios
-  { path: 'repuestos', component: RepuestosComponent }, // Ruta para Repuestos
-  { path: 'ubicacion', component: UbicacionComponent }, // Ruta para Ubicación
-  { path: 'acerca-de', component: AcercaDeComponent }, // Ruta para Acerca de
-  { path: 'contactanos', component: ContactanosComponent }, // Ruta para Contáctanos
-  { path: 'register', component:AuthComponent }, // Ruta de Modulo de registro
-  { path: 'inventario', component:InventarioComponent }, // Ruta de Modulo de inventario
-  { path: 'inventario/add/:id', component:  AddRespuestoComponent}, // Ruta de Modulo de inventario
-  { path: 'cliente', component:ClienteComponent }, // Ruta de Modulo de cliente
-  { path: 'cliente/add/:id', component:  AddClienteComponent}, // Ruta de Modulo de inventario
-  { path: 'servicio-contratado', component:  ServicioContratadoComponent}, // Ruta de Modulo de inventario
-  { path: 'servicio-contratado/add', component:  AddServicioContradoComponent}, // Ruta de Modulo de inventario
-  { path: '', redirectTo: '/servicios', pathMatch: 'full' }, // Redirige por defecto a Servicios
-  { path: '**', redirectTo: '/servicios', pathMatch: 'full' } // Redirige cualquier ruta inválida a Servicios
+  // Define las rutas de la aplicación
+  { path: 'servicios', component: ServiciosComponent, data: { animation: 'ServiciosPage', index: 1 } },
+  { path: 'repuestos', component: RepuestosComponent, data: { animation: 'RepuestosPage', index: 2 } },
+  { path: 'ubicacion', component: UbicacionComponent, data: { animation: 'UbicacionPage', index: 3 } },
+  { path: 'acerca-de', component: AcercaDeComponent, data: { animation: 'AcercaDePage', index: 4 } },
+  { path: 'contactanos', component: ContactanosComponent, data: { animation: 'ContactanosPage', index: 5 } },
+  { path: 'register', component: AuthComponent, data: { animation: 'RegisterPage', index: 6 } },
+  { path: 'inventario', component: InventarioComponent, data: { animation: 'InventarioPage', index: 7 } },
+  { path: 'inventario/add/:id', component: AddRespuestoComponent, data: { animation: 'AddRespuestoPage', index: 8 } },
+  { path: 'cliente', component: ClienteComponent, data: { animation: 'ClientePage', index: 9 } },
+  { path: 'cliente/add/:id', component: AddClienteComponent, data: { animation: 'AddClientePage', index: 10 } },
+  { path: 'servicio-contratado', component: ServicioContratadoComponent, data: { animation: 'ServicioContratadoPage', index: 11 } },
+  { path: 'servicio-contratado/add', component: AddServicioContradoComponent, data: { animation: 'AddServicioContratadoPage', index: 12 } },
+  { path: '', redirectTo: '/servicios', pathMatch: 'full' },
+  { path: '**', redirectTo: '/servicios', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  getRouteAnimationData(outlet: RouterOutlet) {
+    if (!outlet || !outlet.activatedRouteData) {
+      return null;
+    }
+    return outlet.activatedRouteData['index'];
+  }
+}

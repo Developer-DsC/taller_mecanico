@@ -21,35 +21,35 @@ import { InventarioService } from '../../../services/inventario.service';
 export class AddRespuestoComponent {
 
   respuestosForm: FormGroup;
-  id:string|null=null;
-  title:string='';
-  nameButtom:string='Nuevo';
+  id: string | null = null;
+  title: string = '';
+  nameButtom: string = 'Nuevo';
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private alertService: AlertService,
-    private inventarioService:InventarioService,
-    private route:ActivatedRoute
+    private inventarioService: InventarioService,
+    private route: ActivatedRoute
   ) {
     this.respuestosForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
-      cantidad_disponible: ['', [Validators.required]],
-      cantidad_minima: ['', [Validators.required]],
-      costo_unitario: ['', [Validators.required]],
-      fecha_ingreso:['', [Validators.required]],
-      imagen:['',Validators.required],
-      descripcion:['',Validators.required]
+      cantidad_disponible: ['', [Validators.required, Validators.min(0)]],
+      cantidad_minima: ['', [Validators.required, Validators.min(0)]],
+      costo_unitario: ['', [Validators.required, Validators.min(0)]],
+      fecha_ingreso: ['', [Validators.required]],
+      imagen: ['', Validators.required],
+      descripcion: ['', Validators.required]
     });
   }
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.id=this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id');
 
     if (this.id) {
-     this.title = 'Actualizar';
-       this.nameButtom = 'Actualizar';
+      this.title = 'Actualizar';
+      this.nameButtom = 'Actualizar';
       this.inventarioService.ListOneRespuesto(Number(this.id)).subscribe({
         next: (data) => {
           console.log(data);
@@ -64,7 +64,7 @@ export class AddRespuestoComponent {
   }
   create() {
     console.log(this.respuestosForm.value);
-    if(this.nameButtom=="Nuevo"){
+    if (this.nameButtom == "Nuevo") {
       this.inventarioService.insertarRepuesto(this.respuestosForm.value).subscribe({
         next: (data) => {
           console.log(data);
@@ -74,16 +74,16 @@ export class AddRespuestoComponent {
           this.alertService.errorCreate;
         },
         complete: () => {
-            this.alertService.create;
-             this.router.navigate(['/repuestos']).then(() => {
-              window.location.reload();
-            });
-            
-  
+          this.alertService.create;
+          this.router.navigate(['/repuestos']).then(() => {
+            window.location.reload();
+          });
+
+
         },
       });
-    }else{
-      this.inventarioService.updateRepuesto(Number(this.id),this.respuestosForm.value).subscribe({
+    } else {
+      this.inventarioService.updateRepuesto(Number(this.id), this.respuestosForm.value).subscribe({
         next: (data) => {
           console.log(data);
         },
@@ -92,20 +92,20 @@ export class AddRespuestoComponent {
           this.alertService.errorCreate;
         },
         complete: () => {
-            this.alertService.create;
-             this.router.navigate(['/repuestos']).then(() => {
-              window.location.reload();
-            });
-            
-  
+          this.alertService.create;
+          this.router.navigate(['/repuestos']).then(() => {
+            window.location.reload();
+          });
+
+
         },
       });
     }
-    
+
     this.respuestosForm.reset(); // Limpia el formulario después de guardar
     this.inventarioService.getInventarios().subscribe(
       (data) => {
-       console.log(data); // data ya es un arreglo (response.data)
+        console.log(data); // data ya es un arreglo (response.data)
       },
       (error) => {
         console.error('Error al obtener los inventarios:', error);
@@ -113,8 +113,8 @@ export class AddRespuestoComponent {
     );
   }
 
-  update(){
-    this.inventarioService.updateRepuesto(Number(this.id),this.respuestosForm.value).subscribe({
+  update() {
+    this.inventarioService.updateRepuesto(Number(this.id), this.respuestosForm.value).subscribe({
       next: (data) => {
         console.log(data);
       },
@@ -123,13 +123,31 @@ export class AddRespuestoComponent {
         this.alertService.errorCreate;
       },
       complete: () => {
-          this.alertService.create;
-           this.router.navigate(['/repuestos']).then(() => {
-            window.location.reload();
-          });
-          
+        this.alertService.create;
+        this.router.navigate(['/repuestos']).then(() => {
+          window.location.reload();
+        });
+
 
       },
     });
   }
+  
+  selectedFile: File | null = null;
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64img = reader.result as string;
+        this.respuestosForm.patchValue({ imagen: base64img });
+      };
+      reader.readAsDataURL(this.selectedFile);
+    } else {
+      this.selectedFile = null;
+      this.respuestosForm.patchValue({ imagen: null });
+    }
+  }
+
 }
