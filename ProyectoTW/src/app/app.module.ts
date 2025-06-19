@@ -27,6 +27,7 @@ import { ClienteComponent } from './pages/cliente/cliente.component';
 import { AddClienteComponent } from './pages/cliente/add-cliente/add-cliente.component';
 import { ServicioContratadoComponent } from './pages/servicio-contratado/servicio-contratado.component';
 import { AddServicioContradoComponent } from './pages/servicio-contratado/add-servicio-contrado/add-servicio-contrado.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import { AddServicioContradoComponent } from './pages/servicio-contratado/add-se
     AddServicioContradoComponent
     
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,BrowserAnimationsModule],
   providers: [
     provideClientHydration(),
     provideHttpClient(withInterceptorsFromDi()),
