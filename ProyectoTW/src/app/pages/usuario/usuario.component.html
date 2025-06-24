@@ -1,0 +1,42 @@
+<!-- usuario.component.html -->
+<div class="mx-auto w-75 p-1">
+  <!-- botón de Nuevo... -->
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of usuarios; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ item.nombre }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.rol }}</td>
+        <td class="d-flex">
+          <!-- Editar -->
+          <a
+            [routerLink]="['/usuario/add', item.usuario_id]"
+            class="btn btn-outline-success p-1 d-flex align-items-center"
+          >
+            <span>Editar</span>
+            <i class="fa-solid fa-pen-to-square ms-1"></i>
+          </a>
+          <!-- Eliminar -->
+          <button
+            (click)="eliminar(item.usuario_id)"
+            class="btn btn-outline-danger ms-2 d-flex align-items-center"
+          >
+            <span>Eliminar</span>
+            <i class="fa-solid fa-trash-can ms-1"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
