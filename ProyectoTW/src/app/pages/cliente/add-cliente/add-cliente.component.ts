@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
-  FormControl,
   FormBuilder,
   FormGroup,
   Validators,
@@ -9,7 +8,6 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { AlertService } from '../../../services/aler.service';
 import { AuthService } from '../../../auth/auth.service';
-import { InventarioService } from '../../../services/inventario.service';
 import { ClienteService } from '../../../services/cliente.service';
 @Component({
   selector: 'app-add-cliente',

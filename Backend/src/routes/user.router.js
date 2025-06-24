@@ -32,11 +32,11 @@ routerUsers.get('/servicio-detalles', ServiceDetalleController.listServiceDetall
 routerUsers.get('/servicios', ServiceDetalleController.listServicios)
 
 
-routerUsers.post('/usuario', UsuarioController.create);
 routerUsers.get('/usuarios', UsuarioController.findAll);
-routerUsers.get('/usuario/:id', UsuarioController.findById);
-routerUsers.put('/usuario/:id', UsuarioController.update);
-routerUsers.delete('/usuario/:id', UsuarioController.remove);
+routerUsers.get('/usuarios/filtrar/:id', UsuarioController.findById);
+routerUsers.post('/usuarios/crear', UsuarioController.create);
+routerUsers.put('/usuarios/editar/:id', UsuarioController.update);
+routerUsers.delete('/usuarios/eliminar/:id', UsuarioController.remove);
 
 
 module.exports = routerUsers;
