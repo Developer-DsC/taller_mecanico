@@ -1,74 +1,147 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="img/BG_logo.png" alt="Logo" width="100" height="50">
-        </a>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="img/BG_logo.png" alt="Logo" width="100" height="50" />
+    </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
-                <li class="nav-item">
-                    <a class="nav-link nav-box" aria-current="page" routerLink="/servicios">Servicios</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-box" aria-current="page" routerLink="/repuestos">Repuestos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-box" aria-current="page" routerLink="/ubicacion">Ubicación</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-box" aria-current="page" routerLink="/acerca-de">Acerca de</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-box" aria-current="page" routerLink="/contactanos">Contáctanos</a>
-                </li>
-                <li class="nav-item" *ngIf="userRole === 'admin'">
-                    <a class="nav-link nav-box" aria-current="page" routerLink="/inventario">Inventario</a>
-                </li>
-                <li class="nav-item" *ngIf="userRole === 'admin'">
-                    <a class="nav-link nav-box" aria-current="page" routerLink="/cliente">Clientes</a>
-                </li>
-                <li class="nav-item" *ngIf="userRole === 'admin' || userRole === 'tecnico'">
-                    <a class="nav-link nav-box" aria-current="page" routerLink="/servicio-contratado">Servicios Contratados</a>
-                </li>
-
-
-            </ul>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
-
-                <li class="nav-item">
-                    @if (!token) {
-                    <a class="btn btn-dark" routerLink="/login" data-bs-toggle="modal" data-bs-target="#login">Iniciar sesión</a> } @else () {
-                    <a class="btn btn-dark" routerLink=" " (click)="tokenDelete()">Cerrar sesión</a> }
-
-                </li>
-                <div class="modal " id="login">
-                    <div class="modal-dialog modal-lg ">
-                        <div class="modal-content container-fluid modalClose">
-                            <app-auth></app-auth>
-                        </div>
-                    </div>
-                </div>
-                <li class="nav-item" *ngIf="!token ||userRole == 'tecnico'|| userRole !== 'cliente'">
-  <a class="btn btn-outline-dark" routerLink="/register" data-bs-toggle="modal" data-bs-target="#register">
-    Crear nueva cuenta
-  </a>
-</li>
-
-                <div class="modal " id="register">
-                    <div class="modal-dialog modal-lg ">
-                        <div class="modal-content container-fluid modalClose">
-                            <app-register></app-register>
-                        </div>
-                    </div>
-                </div>
-
-            </ul>
-        </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+        <li class="nav-item">
+          <a
+            class="nav-link nav-box"
+            aria-current="page"
+            routerLink="/servicios"
+            >Servicios</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link nav-box"
+            aria-current="page"
+            routerLink="/repuestos"
+            >Repuestos</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link nav-box"
+            aria-current="page"
+            routerLink="/ubicacion"
+            >Ubicación</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link nav-box"
+            aria-current="page"
+            routerLink="/acerca-de"
+            >Acerca de</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link nav-box"
+            aria-current="page"
+            routerLink="/contactanos"
+            >Contáctanos</a
+          >
+        </li>
+        <li class="nav-item" *ngIf="userRole === 'admin'">
+          <a
+            class="nav-link nav-box"
+            aria-current="page"
+            routerLink="/inventario"
+            >Inventario</a
+          >
+        </li>
+        <li class="nav-item" *ngIf="userRole === 'admin' || userRole === 'tecnico'">
+          <a class="nav-link nav-box" aria-current="page" routerLink="/cliente"
+            >Clientes</a
+          >
+        </li>
+        <li
+          class="nav-item"
+          *ngIf="userRole === 'admin' || userRole === 'tecnico'"
+        >
+         
+          
+        </li>
+        <!-- ✅ Nueva opción para Usuarios -->
+        <li class="nav-item" *ngIf="userRole === 'admin'">
+          <a class="nav-link nav-box" aria-current="page" routerLink="/usuario"
+            >Usuarios</a
+          >
+        </li>
+        <li
+          class="nav-item"
+          *ngIf="userRole === 'admin' || userRole === 'tecnico'"
+        >
+          <a
+            class="nav-link nav-box"
+            aria-current="page"
+            routerLink="/servicio-contratado"
+            >Servicios Contratados</a
+          >
+        </li>
+      </ul>
     </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
+        <li class="nav-item">
+          @if (!token) {
+          <a
+            class="btn btn-dark"
+            routerLink="/login"
+            data-bs-toggle="modal"
+            data-bs-target="#login"
+            >Iniciar sesión</a
+          >
+          } @else () {
+          <a class="btn btn-dark" routerLink=" " (click)="tokenDelete()"
+            >Cerrar sesión</a
+          >
+          }
+        </li>
+        <div class="modal" id="login">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content container-fluid modalClose">
+              <app-auth></app-auth>
+            </div>
+          </div>
+        </div>
+        <li
+          class="nav-item"
+          *ngIf="!token || userRole == 'tecnico' || userRole !== 'cliente'"
+        >
+          <a
+            class="btn btn-outline-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#register"
+          >
+            Crear nueva cuenta
+          </a>
+        </li>
+
+        <div class="modal" id="register">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content container-fluid modalClose">
+              <app-register></app-register>
+            </div>
+          </div>
+        </div>
+      </ul>
+    </div>
+  </div>
 </nav>

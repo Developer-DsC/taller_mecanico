@@ -5,6 +5,7 @@ const AuthMiddleware= require("../middlewares/authMiddleware");
 const InventarioController = require('../controllers/inventario.controller');
 const ClienteController = require('../controllers/cliente.controller');
 const ServiceDetalleController = require('../controllers/service_detalle.controller')
+const UsuarioController = require('../controllers/usuario.controller');
 
 routerUsers.post('/register', UserController.register);
 routerUsers.post('/login',UserController.login); 
@@ -29,5 +30,13 @@ routerUsers.get('/clientes/filter', ClienteController.filterClientes);
 routerUsers.post('/servicio-detalle', ServiceDetalleController.createServiceDetalle)
 routerUsers.get('/servicio-detalles', ServiceDetalleController.listServiceDetalle)
 routerUsers.get('/servicios', ServiceDetalleController.listServicios)
+
+
+routerUsers.post('/usuario', UsuarioController.create);
+routerUsers.get('/usuarios', UsuarioController.findAll);
+routerUsers.get('/usuario/:id', UsuarioController.findById);
+routerUsers.put('/usuario/:id', UsuarioController.update);
+routerUsers.delete('/usuario/:id', UsuarioController.remove);
+
 
 module.exports = routerUsers;

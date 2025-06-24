@@ -28,6 +28,8 @@ import { AddClienteComponent } from './pages/cliente/add-cliente/add-cliente.com
 import { ServicioContratadoComponent } from './pages/servicio-contratado/servicio-contratado.component';
 import { AddServicioContradoComponent } from './pages/servicio-contratado/add-servicio-contrado/add-servicio-contrado.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UsuarioComponent } from './pages/usuario/usuario.component';
+import { AddUsuarioComponent } from './pages/usuario/add-usuario/add-usuario.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ClienteComponent,
     AddClienteComponent,
     ServicioContratadoComponent,
-    AddServicioContradoComponent
+    AddServicioContradoComponent,
+    UsuarioComponent,
+    AddUsuarioComponent
     
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,BrowserAnimationsModule],

@@ -14,6 +14,9 @@ import { ClienteComponent } from './pages/cliente/cliente.component';
 import { AddClienteComponent } from './pages/cliente/add-cliente/add-cliente.component';
 import { ServicioContratadoComponent } from './pages/servicio-contratado/servicio-contratado.component';
 import { AddServicioContradoComponent } from './pages/servicio-contratado/add-servicio-contrado/add-servicio-contrado.component';
+import { UsuarioComponent } from './pages/usuario/usuario.component';
+import { AddUsuarioComponent } from './pages/usuario/add-usuario/add-usuario.component';
+
 const routes: Routes = [
   // Define las rutas de la aplicación
   { path: 'servicios', component: ServiciosComponent, data: { animation: 'ServiciosPage', index: 1 } },
@@ -28,6 +31,9 @@ const routes: Routes = [
   { path: 'cliente/add/:id', component: AddClienteComponent, data: { animation: 'AddClientePage', index: 10 } },
   { path: 'servicio-contratado', component: ServicioContratadoComponent, data: { animation: 'ServicioContratadoPage', index: 11 } },
   { path: 'servicio-contratado/add', component: AddServicioContradoComponent, data: { animation: 'AddServicioContratadoPage', index: 12 } },
+  { path: 'usuario', component: UsuarioComponent, data: { animation: 'UsuarioPage', index: 13 } },
+  { path: 'usuario', component: UsuarioComponent, data: { animation: 'UsuarioPage', index: 13 } },
+  { path: 'usuario/add', component: AddUsuarioComponent, data: { animation: 'AddUsuarioPage', index: 14 } },
   { path: '', redirectTo: '/servicios', pathMatch: 'full' },
   { path: '**', redirectTo: '/servicios', pathMatch: 'full' },
 ];

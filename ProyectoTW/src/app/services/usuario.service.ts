@@ -1,20 +1,46 @@
+// usuario.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+export interface Usuario {
+  usuario_id: number;
+  nombre: string;
+  email: string;
+  rol: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = 'http://localhost:3000/api/usuarios'; // Ajusta según tu ruta
+  private apiUrl = 'http://localhost:3000/api/users/usuarios';
 
   constructor(private http: HttpClient) {}
 
-  getUsuarios(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  // Obtener todos los usuarios (ya devuelve directamente Array<Usuario>)
+  getUsuarios(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.apiUrl);
   }
 
-  deleteUsuario(usuario_id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${usuario_id}`);
+
+  // Insertar un nuevo usuario
+  insertarUsuario(usuario: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/usuario`, usuario);
+  }
+
+  // Obtener un usuario por ID
+  ListOneUsuario(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/usuario/filtrar/${id}`);
+  }
+
+  // Actualizar usuario por ID
+  updateUsuario(id: number, usuario: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/usuario/${id}`, usuario);
+  }
+
+  // Eliminar usuario por ID
+  deleteUsuario(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/usuario/${id}`);
   }
 }
