@@ -41,17 +41,20 @@ const findOneUserEmail = async (email) => {
     return rows[0];
 };
 
-// Actualizar usuario
-const updateUser = async (id, { nombre, email, password_hash, rol }) => {
+// Actualizar usuario SIN modificar la contraseña
+const updateUser = async (id, { nombre, email, rol }) => {
     const query = {
         text: `UPDATE public.usuarios 
-               SET nombre = $1, email = $2, password_hash = $3, rol = $4
-               WHERE usuario_id = $5;`,
-        values: [nombre, email, password_hash, rol, id],
+               SET nombre = $1, email = $2, rol = $3
+               WHERE usuario_id = $4
+               RETURNING usuario_id, nombre, email, rol;`,
+        values: [nombre, email, rol, id],
     };
-    await db.query(query);
-    return { msg: 'Usuario actualizado correctamente' };
+    const { rows } = await db.query(query);
+    return rows[0]; // Retorna el usuario actualizado
 };
+
+
 
 // Eliminar usuario
 const deleteUser = async (id) => {

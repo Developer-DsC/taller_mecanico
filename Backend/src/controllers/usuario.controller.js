@@ -41,12 +41,11 @@ const findAll = async (req, res) => {
     }
 };
 
-
 // Obtener un usuario por ID
 const findById = async (req, res) => {
     try {
         const id = req.params.id;
-        const usuario = await UserModel.findUserById(id);
+        const usuario = await UsuarioModel.findUserById(id);
         if (!usuario) {
             return res.status(404).json({ ok: false, msg: 'Usuario no encontrado' });
         }
@@ -56,33 +55,37 @@ const findById = async (req, res) => {
     }
 };
 
-// Actualizar usuario
+// Actualizar usuario SIN modificar la contraseña
 const update = async (req, res) => {
     try {
         const id = req.params.id;
-        const { nombre, email, password_hash, rol } = req.body;
+        const { nombre, email, rol } = req.body;
 
-        const hashedPassword = await bcrypt.hash(password_hash, 10);
+        const usuario = await UsuarioModel.findUserById(id);
+        if (!usuario) {
+            return res.status(404).json({ ok: false, msg: 'Usuario no encontrado' });
+        }
 
-        await UserModel.updateUser(id, {
+        const updatedUser = await UsuarioModel.updateUser(id, {
             nombre,
             email,
-            password_hash: hashedPassword,
             rol,
         });
 
-        res.json({ ok: true, msg: 'Usuario actualizado' });
+        res.json({ ok: true, msg: 'Usuario actualizado', usuario: updatedUser });
     } catch (error) {
         console.error(error);
         res.status(500).json({ ok: false, msg: 'Error al actualizar usuario' });
     }
 };
 
+
+
 // Eliminar usuario
 const remove = async (req, res) => {
     try {
         const id = req.params.id;
-        await UserModel.deleteUser(id);
+        await UsuarioModel.deleteUser(id);
         res.json({ ok: true, msg: 'Usuario eliminado' });
     } catch (error) {
         res.status(500).json({ ok: false, msg: 'Error al eliminar usuario' });

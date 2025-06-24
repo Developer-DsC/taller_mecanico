@@ -34,6 +34,7 @@ const routes: Routes = [
   { path: 'usuario', component: UsuarioComponent, data: { animation: 'UsuarioPage', index: 13 } },
   { path: 'usuario', component: UsuarioComponent, data: { animation: 'UsuarioPage', index: 13 } },
   { path: 'usuario/add', component: AddUsuarioComponent, data: { animation: 'AddUsuarioPage', index: 14 } },
+  { path: 'usuario/add/:id', component: AddUsuarioComponent, data: { animation: 'EditUsuarioPage', index: 15 } },
   { path: '', redirectTo: '/servicios', pathMatch: 'full' },
   { path: '**', redirectTo: '/servicios', pathMatch: 'full' },
 ];
