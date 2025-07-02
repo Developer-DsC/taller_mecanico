@@ -43,13 +43,13 @@ inventarios: any[] = []; // Asegúrate de que sea un arreglo
         // Procedemos con la eliminación
         this.inventarioService.deleteRespuestos(cliente_id).subscribe({
           next: (data) => {
-            console.log(data);
+            
           },
           error: (errorData) => {
             console.error(errorData);
           },
           complete: () => {
-            console.log('completado');
+           
             setTimeout(() => {
               window.location.reload();
             }, 3000);
@@ -63,7 +63,7 @@ inventarios: any[] = []; // Asegúrate de que sea un arreglo
           icon: 'info', // Puedes cambiar el icono a algo más acorde
           confirmButtonText: 'Aceptar',
         }).then(() => {
-          console.log('Eliminación cancelada');
+         
         });
       }
     });

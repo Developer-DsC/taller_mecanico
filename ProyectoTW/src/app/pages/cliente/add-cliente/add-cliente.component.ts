@@ -44,7 +44,7 @@ export class AddClienteComponent {
        this.nameButtom = 'Actualizar';
       this. clienteService.ListOneCliente(Number(this.id)).subscribe({
         next: (data) => {
-          console.log(data);
+         
           this.clienteForm.patchValue(data.data);
         },
         error: (errorData) => {
@@ -55,11 +55,11 @@ export class AddClienteComponent {
     }
   }
   create() {
-    console.log(this.clienteForm.value);
+   
     if(this.nameButtom=="Nuevo"){
       this.clienteService.insertarCliente(this.clienteForm.value).subscribe({
         next: (data) => {
-          console.log(data);
+         
         },
         error: (errorData) => {
           console.error(errorData);
@@ -77,7 +77,7 @@ export class AddClienteComponent {
     }else{
       this.clienteService.updateCliente(Number(this.id),this.clienteForm.value).subscribe({
         next: (data) => {
-          console.log(data);
+          
         },
         error: (errorData) => {
           console.error(errorData);
@@ -97,7 +97,7 @@ export class AddClienteComponent {
     this.clienteForm.reset(); // Limpia el formulario después de guardar
     this.clienteService.getCliente().subscribe(
       (data) => {
-       console.log(data); // data ya es un arreglo (response.data)
+       
       },
       (error) => {
         console.error('Error al obtener los inventarios:', error);

@@ -57,7 +57,7 @@ export class AddServicioContradoComponent {
   ListClientes() {
     this.clienteService.getCliente().subscribe({
       next: (data) => {
-        console.log(data);
+        
         this.clientes=data;
       },
       error: (errorData) => {
@@ -65,7 +65,7 @@ export class AddServicioContradoComponent {
 /*         this.alertService.errorCreate();
  */      },
       complete: () => {
-        console.log('clientes cargados');
+       
       },
     });
   }
@@ -73,7 +73,7 @@ export class AddServicioContradoComponent {
   ListServicios() {
     this.servicioDetalle.getServicioDetalleAll().subscribe({
       next: (data) => {
-        console.log(data);
+       
         this.serviciosDetalle=data;
       },
       error: (errorData) => {
@@ -81,7 +81,7 @@ export class AddServicioContradoComponent {
 /*         this.alertService.errorCreate();
  */      },
       complete: () => {
-        console.log('servicios cargados');
+        
       },
     });
   }
@@ -89,7 +89,7 @@ export class AddServicioContradoComponent {
   ListRepuestos() {
     this.inventarioService.getInventarios().subscribe({
       next: (data) => {
-        console.log(data);
+       
         this.repuestos=data;
       },
       error: (errorData) => {
@@ -97,7 +97,7 @@ export class AddServicioContradoComponent {
 /*         this.alertService.errorCreate();
  */      },
       complete: () => {
-        console.log('repuestos cargados');
+       
       },
     });
   }

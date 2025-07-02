@@ -52,7 +52,7 @@ export class AddRespuestoComponent {
        this.nameButtom = 'Actualizar';
       this.inventarioService.ListOneRespuesto(Number(this.id)).subscribe({
         next: (data) => {
-          console.log(data);
+          
           this.respuestosForm.patchValue(data.data);
         },
         error: (errorData) => {
@@ -63,11 +63,11 @@ export class AddRespuestoComponent {
     }
   }
   create() {
-    console.log(this.respuestosForm.value);
+    
     if(this.nameButtom=="Nuevo"){
       this.inventarioService.insertarRepuesto(this.respuestosForm.value).subscribe({
         next: (data) => {
-          console.log(data);
+          
         },
         error: (errorData) => {
           console.error(errorData);
@@ -85,7 +85,7 @@ export class AddRespuestoComponent {
     }else{
       this.inventarioService.updateRepuesto(Number(this.id),this.respuestosForm.value).subscribe({
         next: (data) => {
-          console.log(data);
+         
         },
         error: (errorData) => {
           console.error(errorData);
@@ -105,7 +105,7 @@ export class AddRespuestoComponent {
     this.respuestosForm.reset(); // Limpia el formulario después de guardar
     this.inventarioService.getInventarios().subscribe(
       (data) => {
-       console.log(data); // data ya es un arreglo (response.data)
+      // data ya es un arreglo (response.data)
       },
       (error) => {
         console.error('Error al obtener los inventarios:', error);
@@ -116,7 +116,7 @@ export class AddRespuestoComponent {
   update(){
     this.inventarioService.updateRepuesto(Number(this.id),this.respuestosForm.value).subscribe({
       next: (data) => {
-        console.log(data);
+        
       },
       error: (errorData) => {
         console.error(errorData);

@@ -47,7 +47,7 @@ export class RegisterComponent {
   ngOnInit(): void {
   this.authService.userRole$.subscribe((rol) => {
     this.rolUsuario = rol;
-    console.log('Rol recibido en register.component:', rol);
+    
 
     // Definir roles permitidos según el rol del usuario autenticado
     if (rol === 'admin') {
@@ -71,7 +71,7 @@ export class RegisterComponent {
     // 4) Ahora enviamos tal cual:
     this.authService.signUp(this.registerForm.value).subscribe({
       next: (data) => {
-        console.log('Usuario creado:', data);
+        
       },
       error: (errorData) => {
         console.error('Error al crear usuario:', errorData);

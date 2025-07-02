@@ -1,38 +1,49 @@
 <div class="mx-auto w-75 p-1">
-    <a
-      class="btn btn-warning m-2"
-      data-bs-toggle="modal"
-      data-bs-target="#ServicioDetalle"
-      >Nuevo</a
-    >
-    <div class="modal" id="ServicioDetalle">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content container-fluid modalClose">
-          <app-add-servicio-contrado></app-add-servicio-contrado>
-        </div>
+  <a
+    class="btn btn-warning m-2"
+    data-bs-toggle="modal"
+    data-bs-target="#ServicioDetalle"
+    >Nuevo</a
+  >
+  <div class="modal" id="ServicioDetalle">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content container-fluid modalClose">
+        <app-add-servicio-contrado></app-add-servicio-contrado>
       </div>
     </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Servicio</th>
-          <th scope="col">Cliente</th>
-          <th scope="col">Repuesto</th>
-          <th scope="col">Cantidad</th>
-
-        </tr>
-      </thead>
-      <tbody *ngFor="let item of servicio, let i=index">
-        <tr>
-          <th scope="row">{{i+1}}</th>
-          <td>{{ item.servicio_descripcion }}</td>
-          <td>{{ item.cliente_nombre }}</td>
-          <td>{{ item.repuesto }}</td>
-          <td>{{ item.cantidad }}</td>
-         
-        </tr>
-      </tbody>
-    </table>
   </div>
-  
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Servicio</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Repuesto</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Acciones</th>
+        <!-- Nueva columna -->
+      </tr>
+    </thead>
+    <tbody *ngFor="let item of servicio; let i = index">
+      <tr>
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ item.servicio_descripcion }}</td>
+        <td>{{ item.cliente_nombre }}</td>
+        <td>{{ item.repuesto }}</td>
+        <td>{{ item.cantidad }}</td>
+        <td>
+          <button
+            class="btn btn-sm btn-primary me-2"
+            (click)="previsualizar(item)"
+          >
+            Previsualizar
+          </button>
+          <button class="btn btn-sm btn-success" (click)="descargarPDF(item)">
+            Descargar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -32,7 +32,7 @@ const findAllServicios = async () => {
 };
 const findViewServiceDetalle = async () => {
     const query = {
-        text: 'SELECT * FROM vista_servicio_detalle ;', 
+        text: 'SELECT * FROM vista_servicio_detalle ORDER BY detalle_id ASC ;', 
     };
     const { rows } = await db.query(query); 
     return rows; // Retornar los resultados

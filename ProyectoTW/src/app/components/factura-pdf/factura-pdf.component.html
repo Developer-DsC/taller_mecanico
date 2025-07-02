@@ -1,0 +1,31 @@
+<div id="factura" style="padding: 10px; background: #fff; color: #000; width: 600px;">
+
+  <h2>Factura</h2>
+  <p>Cliente: Juan Pérez</p>
+  <p>Fecha: {{ fecha | date:'medium' }}</p>
+
+  <table border="1" cellspacing="0" cellpadding="5" style="width:100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>Servicio</th>
+        <th>Repuesto</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items">
+        <td>{{item.servicio}}</td>
+        <td>{{item.repuesto}}</td>
+        <td>{{item.cantidad}}</td>
+        <td>{{item.precioUnitario | currency}}</td>
+        <td>{{item.subtotal | currency}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Total: {{ total | currency }}</h3>
+</div>
+
+<button (click)="generatePDF()">Generar PDF</button>

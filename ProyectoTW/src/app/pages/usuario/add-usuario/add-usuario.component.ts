@@ -42,7 +42,7 @@ export class AddUsuarioComponent implements OnInit {
 
       this.usuarioService.ListOneUsuario(Number(this.id)).subscribe({
         next: (data) => {
-          console.log('Datos recibidos:', data);
+        
           // Asegúrate aquí que el objeto viene en data.data o en data directamente
           // Por ejemplo, si el servicio devuelve { ok: true, data: usuario }
           // o simplemente el usuario en data.
@@ -65,11 +65,11 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   create() {
-    console.log(this.usuarioForm.value);
+    
     if (this.nameButtom === 'Nuevo') {
       this.usuarioService.insertarUsuario(this.usuarioForm.value).subscribe({
         next: (data) => {
-          console.log(data);
+         
         },
         error: (errorData) => {
           console.error(errorData);
@@ -83,7 +83,7 @@ export class AddUsuarioComponent implements OnInit {
     } else {
       this.usuarioService.updateUsuario(Number(this.id), this.usuarioForm.value).subscribe({
         next: (data) => {
-          console.log(data);
+         
         },
         error: (errorData) => {
           console.error(errorData);
