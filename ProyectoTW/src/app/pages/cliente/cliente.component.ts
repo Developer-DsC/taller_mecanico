@@ -42,13 +42,13 @@ export class ClienteComponent {
         // Procedemos con la eliminación
         this.clienteService.deleteCliente(cliente_id).subscribe({
           next: (data) => {
-            console.log(data);
+            
           },
           error: (errorData) => {
             console.error(errorData);
           },
           complete: () => {
-            console.log('complety');
+           
             setTimeout(() => {
               window.location.reload();
             }, 2000);  
@@ -63,7 +63,7 @@ export class ClienteComponent {
           icon: 'info', // Puedes cambiar el icono a algo más acorde
           confirmButtonText: 'Aceptar',
         }).then(() => {
-          console.log('Eliminación cancelada');
+          
         });
       }
     });

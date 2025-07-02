@@ -30,6 +30,10 @@ import { AddServicioContradoComponent } from './pages/servicio-contratado/add-se
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UsuarioComponent } from './pages/usuario/usuario.component';
 import { AddUsuarioComponent } from './pages/usuario/add-usuario/add-usuario.component';
+import { FacturaPdfComponent } from './components/factura-pdf/factura-pdf.component';
+import { FacturaFormComponent } from './components/factura-form/factura-form.component';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -50,10 +54,12 @@ import { AddUsuarioComponent } from './pages/usuario/add-usuario/add-usuario.com
     ServicioContratadoComponent,
     AddServicioContradoComponent,
     UsuarioComponent,
-    AddUsuarioComponent
+    AddUsuarioComponent,
+    FacturaPdfComponent,
+    FacturaFormComponent
     
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,BrowserAnimationsModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,BrowserAnimationsModule, FormsModule],
   providers: [
     provideClientHydration(),
     provideHttpClient(withInterceptorsFromDi()),

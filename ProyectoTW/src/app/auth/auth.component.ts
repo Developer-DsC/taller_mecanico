@@ -27,10 +27,10 @@ export class AuthComponent {
   }
 
   login() {
-    console.log(this.loginForm.value);
+   
     this.authService.signIn(this.loginForm.value).subscribe({
       next: (data) => {
-        console.log(data);
+        
       },
       error: (errorData) => {
         console.error(errorData);

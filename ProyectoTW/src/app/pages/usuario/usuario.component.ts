@@ -18,7 +18,7 @@ export class UsuarioComponent {
   obtenerUsuarios(): void {
     this.usuarioService.getUsuarios().subscribe(
       data => {
-        console.log('Llegaron estos usuarios');
+        
         this.usuarios = data;
       },
       error => console.error('Error al obtener usuarios:', error)

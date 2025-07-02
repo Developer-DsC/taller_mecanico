@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit {
   
     if (this.token) {
       this.userRole = this.authService.getUserRole();
-      console.log('User role:', this.userRole); // 👀 Verifica si se obtiene correctamente
+     
       this.cdr.detectChanges(); // 🔄 Asegura que la vista se actualice
     }
   }

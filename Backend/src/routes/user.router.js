@@ -6,6 +6,8 @@ const InventarioController = require('../controllers/inventario.controller');
 const ClienteController = require('../controllers/cliente.controller');
 const ServiceDetalleController = require('../controllers/service_detalle.controller')
 const UsuarioController = require('../controllers/usuario.controller');
+const FacturaController = require('../controllers/factura.controller');
+const FacturaDetalleController = require('../controllers/factura_detalle.controller');
 
 routerUsers.post('/register', UserController.register);
 routerUsers.post('/login',UserController.login); 
@@ -38,5 +40,14 @@ routerUsers.post('/usuarios/crear', UsuarioController.create);
 routerUsers.put('/usuarios/editar/:id', UsuarioController.update);
 routerUsers.delete('/usuarios/eliminar/:id', UsuarioController.remove);
 
+routerUsers.post('/factura', FacturaController.createFactura);
+routerUsers.get('/facturas', FacturaController.listFacturas);
+routerUsers.get('/factura/:id', FacturaController.getFacturaById);
 
-module.exports = routerUsers;
+
+
+routerUsers.post('/factura-detalle', FacturaDetalleController.createFacturaDetalle);
+routerUsers.get('/factura-detalles', FacturaDetalleController.listFacturaDetalles);
+routerUsers.get('/factura-detalles/:id', FacturaDetalleController.getDetallesByFacturaId);
+
+module.exports = routerUsers;   
