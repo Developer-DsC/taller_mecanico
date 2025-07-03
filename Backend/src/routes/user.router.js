@@ -32,7 +32,8 @@ routerUsers.get('/clientes/filter', ClienteController.filterClientes);
 routerUsers.post('/servicio-detalle', ServiceDetalleController.createServiceDetalle)
 routerUsers.get('/servicio-detalles', ServiceDetalleController.listServiceDetalle)
 routerUsers.get('/servicios', ServiceDetalleController.listServicios)
-
+routerUsers.get('/servicios/:id', ServiceDetalleController.getServicioById)
+routerUsers.put('/servicio-detalle/:id', ServiceDetalleController.updateFacturaId);
 
 routerUsers.get('/usuarios', UsuarioController.findAll);
 routerUsers.get('/usuarios/filtrar/:id', UsuarioController.findById);
@@ -42,12 +43,18 @@ routerUsers.delete('/usuarios/eliminar/:id', UsuarioController.remove);
 
 routerUsers.post('/factura', FacturaController.createFactura);
 routerUsers.get('/facturas', FacturaController.listFacturas);
-routerUsers.get('/factura/:id', FacturaController.getFacturaById);
+// primero la ruta más específica
+routerUsers.get('/factura/filtrar/:id', FacturaController.getOrCreateFacturaByDetalleId);
 
+// después la ruta genérica
+routerUsers.get('/factura/:id', FacturaController.getFacturaById);
 
 
 routerUsers.post('/factura-detalle', FacturaDetalleController.createFacturaDetalle);
 routerUsers.get('/factura-detalles', FacturaDetalleController.listFacturaDetalles);
 routerUsers.get('/factura-detalles/:id', FacturaDetalleController.getDetallesByFacturaId);
+
+
+routerUsers.get('/servicio/:id', ServiceDetalleController.getServicioById);
 
 module.exports = routerUsers;   

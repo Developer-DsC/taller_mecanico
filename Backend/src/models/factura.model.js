@@ -45,10 +45,41 @@ const findFacturaById = async (id) => {
   return rows;
 };
 
+const getNextNumeroFactura = async () => {
+  const query = {
+    text: `
+      SELECT numero_factura 
+      FROM factura
+      ORDER BY factura_id DESC
+      LIMIT 1;
+    `
+  };
+  const { rows } = await db.query(query);
+  if (rows.length === 0) return 'FA-00001';
+
+  const lastNum = rows[0].numero_factura; // ej: "FA-00012"
+
+  if (!lastNum || !lastNum.includes('-')) {
+    return 'FA-00001';
+  }
+
+  const parts = lastNum.split('-');
+  const num = parseInt(parts[1], 10);
+  if (isNaN(num)) {
+    return 'FA-00001';
+  }
+
+  const nextNum = num + 1;
+  const nextNumStr = nextNum.toString().padStart(5, '0');
+  return `FA-${nextNumStr}`;
+};
+
+
 const FacturaModel = {
   create,
   findAllFacturas,
-  findFacturaById
+  findFacturaById,
+  getNextNumeroFactura,
 };
 
 module.exports = FacturaModel;

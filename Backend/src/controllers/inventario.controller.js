@@ -21,16 +21,21 @@ const createInventario = async (req, res) => {
 
 // Listar todos los inventarios
 const listInventariosId = async (req, res) => {
-    console.log(req.params);
     try {
         const { id } = req.params;
-        const inventarios = await InventarioModel.filterInventarioId(+id);
-        return res.status(200).json({ ok: true, data: inventarios });
+        const inventario = await InventarioModel.filterInventarioId(+id);
+
+        if (!inventario) {
+            return res.status(404).json({ ok: false, msg: 'Repuesto no encontrado' });
+        }
+
+        return res.status(200).json({ ok: true, data: inventario }); // ✅ aquí aseguramos que se devuelve el dato
     } catch (error) {
         console.error(error);
         return res.status(500).json({ ok: false, msg: "Error del servidor" });
     }
 };
+
 // Listar todos los inventarios
 const listInventarios = async (req, res) => {
     try {

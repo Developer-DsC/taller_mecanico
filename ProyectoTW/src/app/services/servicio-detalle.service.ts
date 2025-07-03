@@ -31,5 +31,9 @@ getFacturaById(id: number) {
       map((response) => response.data) // Extrae el arreglo "data" de la respuesta
     );
   }
-  
+ getServicioById(id: number): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/servicio/${id}`);
+}
+
+
 }

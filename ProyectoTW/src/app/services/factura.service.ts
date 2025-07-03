@@ -25,5 +25,9 @@ export class FacturaService {
     return this.http.get(`${this.apiUrl}/factura/${id}`);
   }
  
+  getFacturaByDetalleId(detalleId: number) {
+  return this.http.get<any>(`${this.apiUrl}/factura/filtrar/${detalleId}`);
+}
+
 
 }

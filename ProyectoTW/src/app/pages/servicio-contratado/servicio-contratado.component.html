@@ -22,28 +22,63 @@
         <th scope="col">Repuesto</th>
         <th scope="col">Cantidad</th>
         <th scope="col">Acciones</th>
-        <!-- Nueva columna -->
       </tr>
     </thead>
-    <tbody *ngFor="let item of servicio; let i = index">
-      <tr>
+    <tbody>
+      <tr *ngFor="let item of servicio; let i = index">
         <th scope="row">{{ i + 1 }}</th>
         <td>{{ item.servicio_descripcion }}</td>
         <td>{{ item.cliente_nombre }}</td>
         <td>{{ item.repuesto }}</td>
         <td>{{ item.cantidad }}</td>
         <td>
-          <button
-            class="btn btn-sm btn-primary me-2"
-            (click)="previsualizar(item)"
-          >
+          <button class="btn btn-sm btn-primary me-2" (click)="previsualizar(item)">
             Previsualizar
           </button>
-          <button class="btn btn-sm btn-success" (click)="descargarPDF(item)">
+          <button
+            class="btn btn-sm btn-success"
+            (click)="descargarFactura()"
+            [disabled]="!factura || factura.length === 0"
+          >
             Descargar
           </button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <!-- Mostrar factura previsualizada -->
+  <div *ngIf="factura && factura.length > 0" class="mt-4 p-3 border rounded bg-light">
+    <h5>Factura: {{ factura[0].numero_factura }}</h5>
+    <p><strong>Cliente:</strong> {{ factura[0].cliente_nombre }}</p>
+    <p><strong>Fecha emisión:</strong> {{ factura[0].fecha_emision | date: 'short' }}</p>
+
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detalle of factura">
+          <td>{{ detalle.servicio || detalle.repuesto || 'N/A' }}</td>
+          <td>{{ detalle.cantidad }}</td>
+          <td>\${{ detalle.precio_unitario }}</td>
+          <td>\${{ detalle.subtotal }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Subtotal:</strong> \${{ factura[0].subtotal }}</p>
+    <p><strong>IVA (12%):</strong> \${{ factura[0].iva }}</p>
+    <p><strong>Total:</strong> \${{ factura[0].total }}</p>
+  </div>
+
+  <!-- Mostrar error si hay -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
 </div>
