@@ -57,10 +57,53 @@ const listServicios = async(req, res) => {
     }
 };
 
+const getServicioById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const servicio = await ServiceDetalleModel.findServicioById(id);
+
+    if (!servicio) {
+      return res.status(404).json({ message: 'Servicio no encontrado' });
+    }
+
+    res.json({ data: servicio });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener servicio' });
+  }
+};
+
+
+const updateFacturaId = async (req, res) => {
+  try {
+    const { detalle_id } = req.params;
+    const { factura_id } = req.body;
+
+    if (!factura_id) {
+      return res.status(400).json({ ok: false, msg: 'Factura_id es requerido en el cuerpo' });
+    }
+
+    const detalleActualizado = await ServiceDetalleModel.updateFacturaId(detalle_id, factura_id);
+
+    if (!detalleActualizado) {
+      return res.status(404).json({ ok: false, msg: 'Detalle no encontrado para actualizar' });
+    }
+
+    res.json({ ok: true, msg: 'Factura asignada correctamente', data: detalleActualizado });
+  } catch (error) {
+    console.error('Error en updateFacturaId:', error);
+    res.status(500).json({ ok: false, msg: 'Error al actualizar factura_id' });
+  }
+};
+
+
 const ServiceDetalleController = {
     createServiceDetalle,
     listServiceDetalle,
-    listServicios  
+    listServicios,
+    getServicioById,
+    updateFacturaId
 };
 
 module.exports = ServiceDetalleController;
