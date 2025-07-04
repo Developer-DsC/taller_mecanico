@@ -12,7 +12,9 @@
       </div>
     </div>
   </div>
-
+<div *ngIf="mensaje" class="alert alert-info mt-3 text-center">
+    {{ mensaje }}
+  </div>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -32,14 +34,22 @@
         <td>{{ item.repuesto }}</td>
         <td>{{ item.cantidad }}</td>
         <td>
-          <button class="btn btn-sm btn-primary me-2" (click)="previsualizar(item)">
+          <button
+            class="btn btn-sm btn-primary me-2"
+            (click)="previsualizar(item)"
+          >
             Previsualizar
           </button>
           <button
             class="btn btn-sm btn-success"
-            (click)="descargarFactura()"
-            [disabled]="!factura || factura.length === 0"
+            [disabled]="cargandoFacturaId === item.detalle_id"
+            (click)="descargarFacturaPorDetalleId(item.detalle_id)"
           >
+            <span
+              *ngIf="cargandoFacturaId === item.detalle_id"
+              class="spinner-border spinner-border-sm me-1"
+              role="status"
+            ></span>
             Descargar
           </button>
         </td>

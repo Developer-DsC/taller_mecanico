@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { generarHtmlFactura } from '../../helpers/factura-html.helper'; // Ajusta ruta si es necesario
+import { generarHtmlFactura } from '../../helpers/factura-html.helper';
 import { FacturaDetalleItem } from '../../models/factura.model';
 import { ServicioDetalle } from '../../models/servicio-detalle.model';
 import { FacturaService } from '../../services/factura.service';
@@ -12,9 +12,9 @@ import { ServicioDetalleService } from '../../services/servicio-detalle.service'
 })
 export class ServicioContratadoComponent {
   servicio: ServicioDetalle[] = [];
-  factura: FacturaDetalleItem[] | null = null;
-  errorMessage: string | null = null;
-  htmlFactura: string = '';
+  facturasPorDetalleId: { [detalleId: number]: FacturaDetalleItem[] } = {};
+  cargandoFacturaId: number | null = null;
+  mensaje: string | null = null;
 
   constructor(
     private servicioDetalleService: ServicioDetalleService,
@@ -27,91 +27,82 @@ export class ServicioContratadoComponent {
 
   obtenerServicios(): void {
     this.servicioDetalleService.getServicioDetalle().subscribe({
-      next: (data:ServicioDetalle[]) => (this.servicio = data),
+      next: (data: ServicioDetalle[]) => (this.servicio = data),
       error: (err) => console.error('Error al obtener los servicios:', err),
     });
   }
 
-  previsualizar(item: any): void {
-    if (!item.detalle_id) {
-      this.errorMessage = 'Detalle ID no definido';
-      this.factura = null;
+  previsualizar(item: ServicioDetalle): void {
+    const detalle_id = item.detalle_id;
+    if (!detalle_id) {
+      this.mensaje = 'Detalle ID no definido.';
       return;
     }
 
-    this.facturaService.getFacturaByDetalleId(item.detalle_id).subscribe({
+    this.facturaService.getFacturaByDetalleId(detalle_id).subscribe({
       next: (resp) => {
         if (resp.ok && resp.factura && resp.factura.length > 0) {
-          this.factura = resp.factura;
-          this.errorMessage = null;
-
-          if (this.factura == null) {
-            return;
-          }
-          const facturaInfo = this.factura[0];
-          let contenidoTabla = '';
-
-          this.factura.forEach((detalle) => {
-            const descripcion = detalle.servicio || detalle.repuesto || 'N/A';
-            const cantidad = detalle.cantidad;
-            const precioUnitario = Number(detalle.precio_unitario).toFixed(2);
-            const subtotal = Number(detalle.subtotal).toFixed(2);
-
-            contenidoTabla += `
-              <tr>
-                <td>${descripcion}</td>
-                <td>${cantidad}</td>
-                <td>$${precioUnitario}</td>
-                <td>$${subtotal}</td>
-              </tr>`;
-          });
-
-          const subtotal = Number(facturaInfo.subtotal).toFixed(2);
-          const iva = Number(facturaInfo.iva).toFixed(2);
-          const total = Number(facturaInfo.total).toFixed(2);
-
-          this.htmlFactura = generarHtmlFactura(this.factura);
-
-
+          const html = generarHtmlFactura(resp.factura);
           const ventana = window.open('', '_blank');
           if (ventana) {
             ventana.document.write(
-              `<!DOCTYPE html><html><head><title>Factura</title></head><body>${this.htmlFactura}</body></html>`
+              `<!DOCTYPE html><html><head><title>Factura</title></head><body>${html}</body></html>`
             );
             ventana.document.close();
           }
         } else {
-          this.errorMessage = resp.message || 'No se pudo obtener la factura';
-          this.factura = null;
+          this.mensaje = 'No se pudo obtener la factura.';
         }
       },
-      error: (err) => {
-        this.errorMessage = 'Error al comunicarse con el servidor';
-        this.factura = null;
-        console.error(err);
+      error: () => {
+        this.mensaje = 'Error al comunicarse con el servidor.';
       },
     });
   }
 
-  async descargarFactura(): Promise<void> {
-    if (!this.factura || this.factura.length === 0 || !this.htmlFactura) {
-      alert('No hay factura disponible para descargar');
+  descargarFacturaPorDetalleId(detalle_id: number): void {
+    if (!detalle_id) {
+      this.mensaje = 'ID inválido.';
       return;
     }
 
-    const html2pdf = (await import('html2pdf.js')).default;
+    this.cargandoFacturaId = detalle_id;
+    const facturaGuardada = this.facturasPorDetalleId[detalle_id];
 
+    if (facturaGuardada) {
+      this.descargarFactura(facturaGuardada);
+    } else {
+      this.facturaService.getFacturaByDetalleId(detalle_id).subscribe({
+        next: async (resp) => {
+          this.cargandoFacturaId = null;
+
+          if (resp.ok && resp.factura && resp.factura.length > 0) {
+            this.facturasPorDetalleId[detalle_id] = resp.factura;
+            this.mensaje = 'Factura generada exitosamente.';
+            await this.descargarFactura(resp.factura);
+          } else {
+            this.mensaje = 'No se encontró factura para este servicio.';
+          }
+        },
+        error: () => {
+          this.cargandoFacturaId = null;
+          this.mensaje = 'Error al obtener la factura desde el servidor.';
+        },
+      });
+    }
+  }
+
+  async descargarFactura(facturaItems: FacturaDetalleItem[]): Promise<void> {
+    const html = generarHtmlFactura(facturaItems);
+    const html2pdf = (await import('html2pdf.js')).default;
     const facturaContainer = document.createElement('div');
-    facturaContainer.innerHTML = this.htmlFactura;
+    facturaContainer.innerHTML = html;
     document.body.appendChild(facturaContainer);
 
     await html2pdf()
       .set({
         margin: 10,
-        filename: `Factura_${this.factura[0].cliente_nombre.replace(
-          /\s+/g,
-          '_'
-        )}_${this.factura[0].numero_factura}.pdf`,
+        filename: `Factura_${facturaItems[0].cliente_nombre.replace(/\s+/g, '_')}_${facturaItems[0].numero_factura}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
