@@ -41,7 +41,7 @@ export class AuthService {
 
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
-    console.log('Rol extraído del token:', payload.rol);
+   
     this.userRoleSubject.next(payload.rol); // ✅ ACTUALIZA EL SUBJECT
   } catch (error) {
     console.error('Error al decodificar el token en setUserRoleFromToken:', error);
@@ -70,7 +70,7 @@ export class AuthService {
   
     try {
       const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica el token
-      console.log('Token payload:', payload); // 👀 Verifica que el payload tenga el rol correcto
+     
       return payload.rol || ''; // 🔥 CAMBIA "role" POR "rol"
     } catch (error) {
       console.error('Error decoding token:', error);

@@ -7,8 +7,7 @@ const getOrCreateFacturaByDetalleId = async (req, res) => {
   try {
     const detalle_id = req.params.id;
 
-    console.log('--- INICIO getOrCreateFacturaByDetalleId ---');
-    console.log('detalle_id recibido:', detalle_id);
+   
 
     const detalle = await ServiceDetalleModel.findDetalleById(detalle_id);
     if (!detalle) return res.status(404).json({ ok: false, message: 'Detalle no encontrado' });
@@ -29,7 +28,7 @@ const getOrCreateFacturaByDetalleId = async (req, res) => {
     const costo_repuesto = repuesto ? Number(repuesto.costo_unitario || 0) : 0;
     const cantidad = Number(detalle.cantidad || 1);
 
-    console.log({ costo_servicio, costo_repuesto, cantidad });
+    
 
     // Cálculos
     const subtotal_servicio = costo_servicio;
@@ -76,7 +75,7 @@ const getOrCreateFacturaByDetalleId = async (req, res) => {
 
     const facturaCompleta = await FacturaModel.findFacturaById(factura.factura_id);
     res.json({ ok: true, factura: facturaCompleta });
-    console.log('--- FIN getOrCreateFacturaByDetalleId ---');
+    
 
   } catch (error) {
     console.error('ERROR en getOrCreateFacturaByDetalleId:', error);

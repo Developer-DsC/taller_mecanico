@@ -42,7 +42,7 @@ export class ServicioContratadoComponent {
         if (resp.ok && resp.factura && resp.factura.length > 0) {
           this.factura = resp.factura;
           this.errorMessage = null;
-          console.log('Factura recibida:', this.factura);
+         
 
           // Crear contenido HTML para la factura
           if (!this.factura) {
