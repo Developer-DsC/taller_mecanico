@@ -5,7 +5,7 @@ const createInventario = async (req, res) => {
 
         const { nombre, cantidad_disponible, cantidad_minima, costo_unitario, imagen, descripcion } = req.body;
         
-        console.log("Datos recibidos:", req.body);
+        
         // Enviamos todos los valores esperados por la consulta
         const inventarioCreate = InventarioModel.create({ 
             nombre, cantidad_disponible, cantidad_minima, costo_unitario, imagen, descripcion 
@@ -48,7 +48,7 @@ const listInventarios = async (req, res) => {
 };
 // Actualizar inventario
 const updateInventario = async (req, res) => {
-    console.log("update");
+    
     try {
         const { id } = req.params;
         const { nombre, cantidad_disponible, cantidad_minima, costo_unitario, imagen, descripcion } = req.body;

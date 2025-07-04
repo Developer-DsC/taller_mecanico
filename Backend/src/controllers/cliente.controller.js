@@ -5,7 +5,7 @@ const createCliente = async(req, res) => {
 
         const { nombre, telefono, email, direccion } = req.body;
 
-        console.log("Datos recibidos:", req.body);
+       
         // Enviamos todos los valores esperados por la consulta
         const clienteCreate = ClienteModel.create({
             nombre,
@@ -41,7 +41,7 @@ const listClientes = async(req, res) => {
 
 // Listar todos los inventarios
 const listClienteId = async(req, res) => {
-    console.log(req.params);
+
     try {
         const { id } = req.params;
         const inventarios = await ClienteModel.filterClienteId(+id);

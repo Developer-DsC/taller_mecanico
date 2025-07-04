@@ -4,7 +4,7 @@ const createServiceDetalle = async (req, res) => {
     try {
         const { servicio_id, cliente_id, repuesto_id, cantidad } = req.body;
 
-        console.log("Datos recibidos:", req.body);
+       
 
         const serviceCreate = await ServiceDetalleModel.create({
             servicio_id,

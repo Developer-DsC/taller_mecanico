@@ -3,14 +3,14 @@ const db = require('./../config/db');
 //Metodos
 //Crear usuario
 const createUser=async (nombre,email,password_hash,rol)=>{
-    console.log("en modelo user");
+   
     const query = {
         text: `INSERT INTO usuarios (nombre,email,password_hash,rol) VALUES ($1,$2,$3,$4)
         RETURNING nombre,email, rol`, values:[nombre,email,password_hash,rol]
     }
 
     const {rows} = await db.query(query);
-    console.log(rows);
+   
     return rows[0];
 }
 
