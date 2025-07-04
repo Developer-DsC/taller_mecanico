@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { ServicioDetalleService } from '../../services/servicio-detalle.service';
+import { generarHtmlFactura } from '../../helpers/factura-html.helper';
+import { FacturaDetalleItem } from '../../models/factura.model';
+import { ServicioDetalle } from '../../models/servicio-detalle.model';
 import { FacturaService } from '../../services/factura.service';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import { ServicioDetalleService } from '../../services/servicio-detalle.service';
 
 @Component({
   selector: 'app-servicio-contratado',
@@ -10,9 +11,10 @@ import autoTable from 'jspdf-autotable';
   styleUrls: ['./servicio-contratado.component.css'],
 })
 export class ServicioContratadoComponent {
-  servicio: any[] = [];
-  factura: any[] | null = null;
-  errorMessage: string | null = null;
+  servicio: ServicioDetalle[] = [];
+  facturasPorDetalleId: { [detalleId: number]: FacturaDetalleItem[] } = {};
+  cargandoFacturaId: number | null = null;
+  mensaje: string | null = null;
 
   constructor(
     private servicioDetalleService: ServicioDetalleService,
@@ -25,166 +27,89 @@ export class ServicioContratadoComponent {
 
   obtenerServicios(): void {
     this.servicioDetalleService.getServicioDetalle().subscribe({
-      next: (data) => (this.servicio = data),
+      next: (data: ServicioDetalle[]) => (this.servicio = data),
       error: (err) => console.error('Error al obtener los servicios:', err),
     });
   }
 
-  previsualizar(item: any): void {
-    if (!item.detalle_id) {
-      this.errorMessage = 'Detalle ID no definido';
-      this.factura = null;
+  previsualizar(item: ServicioDetalle): void {
+    const detalle_id = item.detalle_id;
+    if (!detalle_id) {
+      this.mensaje = 'Detalle ID no definido.';
       return;
     }
 
-    this.facturaService.getFacturaByDetalleId(item.detalle_id).subscribe({
+    this.facturaService.getFacturaByDetalleId(detalle_id).subscribe({
       next: (resp) => {
         if (resp.ok && resp.factura && resp.factura.length > 0) {
-          this.factura = resp.factura;
-          this.errorMessage = null;
-         
-
-          // Crear contenido HTML para la factura
-          if (!this.factura) {
-            // Aquí factura es null, salimos o manejamos error
-            return;
-          }
-
-          const facturaInfo = this.factura[0];
-          let contenidoTabla = '';
-          this.factura.forEach((detalle) => {
-            const descripcion = detalle.servicio || detalle.repuesto || 'N/A';
-            const cantidad = detalle.cantidad;
-            const precioUnitario = Number(detalle.precio_unitario).toFixed(2);
-            const subtotal = Number(detalle.subtotal).toFixed(2);
-
-            contenidoTabla += `
-            <tr>
-              <td>${descripcion}</td>
-              <td>${cantidad}</td>
-              <td>$${precioUnitario}</td>
-              <td>$${subtotal}</td>
-            </tr>`;
-          });
-
-          const subtotal = Number(facturaInfo.subtotal).toFixed(2);
-          const iva = Number(facturaInfo.iva).toFixed(2);
-          const total = Number(facturaInfo.total).toFixed(2);
-
-          const html = `
-          <html>
-          <head>
-            <title>Factura ${facturaInfo.numero_factura}</title>
-            <style>
-              body { font-family: Arial, sans-serif; padding: 20px; }
-              table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-              th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-            </style>
-          </head>
-          <body>
-            <h2>Factura: ${facturaInfo.numero_factura}</h2>
-            <p><strong>Cliente:</strong> ${facturaInfo.cliente_nombre}</p>
-            <p><strong>Fecha emisión:</strong> ${new Date(
-              facturaInfo.fecha_emision
-            ).toLocaleString()}</p>
-            <table>
-              <thead>
-                <tr>
-                  <th>Descripción</th>
-                  <th>Cantidad</th>
-                  <th>Precio Unitario</th>
-                  <th>Subtotal</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${contenidoTabla}
-              </tbody>
-            </table>
-            <p><strong>Subtotal:</strong> $${subtotal}</p>
-            <p><strong>IVA (12%):</strong> $${iva}</p>
-            <p><strong>Total:</strong> $${total}</p>
-          </body>
-          </html>
-        `;
-
-          // Abrir nueva pestaña y escribir HTML
+          const html = generarHtmlFactura(resp.factura);
           const ventana = window.open('', '_blank');
           if (ventana) {
-            ventana.document.write(html);
+            ventana.document.write(
+              `<!DOCTYPE html><html><head><title>Factura</title></head><body>${html}</body></html>`
+            );
             ventana.document.close();
-          } else {
-            alert('Por favor permite abrir nuevas ventanas en tu navegador.');
           }
         } else {
-          this.errorMessage = resp.message || 'No se pudo obtener la factura';
-          this.factura = null;
+          this.mensaje = 'No se pudo obtener la factura.';
         }
       },
-      error: (err) => {
-        this.errorMessage = 'Error al comunicarse con el servidor';
-        this.factura = null;
-        console.error(err);
+      error: () => {
+        this.mensaje = 'Error al comunicarse con el servidor.';
       },
     });
   }
 
-  descargarFactura(): void {
-    if (!this.factura || this.factura.length === 0) {
-      alert('No hay factura para descargar');
+  descargarFacturaPorDetalleId(detalle_id: number): void {
+    if (!detalle_id) {
+      this.mensaje = 'ID inválido.';
       return;
     }
 
-    const doc = new jsPDF();
+    this.cargandoFacturaId = detalle_id;
+    const facturaGuardada = this.facturasPorDetalleId[detalle_id];
 
-    const facturaInfo = this.factura[0];
-    const rows = this.factura.map((d) => [
-      d.servicio || 'N/A',
-      d.cantidad,
-      `$${Number(d.precio_unitario).toFixed(2)}`,
-      `$${Number(d.subtotal).toFixed(2)}`,
-    ]);
+    if (facturaGuardada) {
+      this.descargarFactura(facturaGuardada);
+    } else {
+      this.facturaService.getFacturaByDetalleId(detalle_id).subscribe({
+        next: async (resp) => {
+          this.cargandoFacturaId = null;
 
-    // Encabezado
-    doc.setFontSize(16);
-    doc.text(`Factura: ${facturaInfo.numero_factura}`, 14, 15);
-    doc.setFontSize(12);
-    doc.text(`Cliente: ${facturaInfo.cliente_nombre}`, 14, 25);
-    doc.text(
-      `Fecha: ${new Date(facturaInfo.fecha_emision).toLocaleString()}`,
-      14,
-      32
-    );
+          if (resp.ok && resp.factura && resp.factura.length > 0) {
+            this.facturasPorDetalleId[detalle_id] = resp.factura;
+            this.mensaje = 'Factura generada exitosamente.';
+            await this.descargarFactura(resp.factura);
+          } else {
+            this.mensaje = 'No se encontró factura para este servicio.';
+          }
+        },
+        error: () => {
+          this.cargandoFacturaId = null;
+          this.mensaje = 'Error al obtener la factura desde el servidor.';
+        },
+      });
+    }
+  }
 
-    // Tabla
-    autoTable(doc, {
-      head: [['Descripción', 'Cantidad', 'Precio Unitario', 'Subtotal']],
-      body: rows,
-      startY: 40,
-    });
+  async descargarFactura(facturaItems: FacturaDetalleItem[]): Promise<void> {
+    const html = generarHtmlFactura(facturaItems);
+    const html2pdf = (await import('html2pdf.js')).default;
+    const facturaContainer = document.createElement('div');
+    facturaContainer.innerHTML = html;
+    document.body.appendChild(facturaContainer);
 
-    // Totales
-    const finalY = (doc as any).lastAutoTable.finalY + 10;
-    doc.text(
-      `Subtotal: $${Number(facturaInfo.subtotal).toFixed(2)}`,
-      14,
-      finalY
-    );
-    doc.text(
-      `IVA (12%): $${Number(facturaInfo.iva).toFixed(2)}`,
-      14,
-      finalY + 7
-    );
-    doc.text(
-      `Total: $${Number(facturaInfo.total).toFixed(2)}`,
-      14,
-      finalY + 14
-    );
+    await html2pdf()
+      .set({
+        margin: 10,
+        filename: `Factura_${facturaItems[0].cliente_nombre.replace(/\s+/g, '_')}_${facturaItems[0].numero_factura}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      })
+      .from(facturaContainer)
+      .save();
 
-    // Guardar PDF
-    const nombreArchivo = `Factura_${facturaInfo.cliente_nombre.replace(
-      /\s+/g,
-      '_'
-    )}_${facturaInfo.numero_factura}.pdf`;
-    doc.save(nombreArchivo);
+    document.body.removeChild(facturaContainer);
   }
 }

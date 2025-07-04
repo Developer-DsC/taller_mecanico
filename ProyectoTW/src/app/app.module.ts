@@ -4,35 +4,34 @@ import {
   provideClientHydration,
 } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/shared/navbar/navbar.component';
-import { HomeComponent } from './components/home/home.component';
-import { ServiciosComponent } from './pages/servicios/servicios.component';
-import { RepuestosComponent } from './pages/repuestos/repuestos.component';
-import { UbicacionComponent } from './pages/ubicacion/ubicacion.component';
-import { AcercaDeComponent } from './pages/acerca-de/acerca-de.component';
-import { ContactanosComponent } from './pages/contactanos/contactanos.component';
-import { AuthComponent } from './auth/auth.component';
-import { RegisterComponent } from './auth/components/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import {
   provideHttpClient,
-  withInterceptorsFromDi,
-  withInterceptors,
+  withFetch,
+  withInterceptorsFromDi
 } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AuthComponent } from './auth/auth.component';
+import { RegisterComponent } from './auth/components/register.component';
+import { FacturaFormComponent } from './components/factura-form/factura-form.component';
+import { FacturaPdfComponent } from './components/factura-pdf/factura-pdf.component';
+import { HomeComponent } from './components/home/home.component';
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
+import { AcercaDeComponent } from './pages/acerca-de/acerca-de.component';
+import { AddClienteComponent } from './pages/cliente/add-cliente/add-cliente.component';
+import { ClienteComponent } from './pages/cliente/cliente.component';
+import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 import { AddRespuestoComponent } from './pages/inventario/add-respuestos/add-respuesto.component';
 import { InventarioComponent } from './pages/inventario/inventario.component';
-import { ClienteComponent } from './pages/cliente/cliente.component';
-import { AddClienteComponent } from './pages/cliente/add-cliente/add-cliente.component';
-import { ServicioContratadoComponent } from './pages/servicio-contratado/servicio-contratado.component';
+import { RepuestosComponent } from './pages/repuestos/repuestos.component';
 import { AddServicioContradoComponent } from './pages/servicio-contratado/add-servicio-contrado/add-servicio-contrado.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UsuarioComponent } from './pages/usuario/usuario.component';
+import { ServicioContratadoComponent } from './pages/servicio-contratado/servicio-contratado.component';
+import { ServiciosComponent } from './pages/servicios/servicios.component';
+import { UbicacionComponent } from './pages/ubicacion/ubicacion.component';
 import { AddUsuarioComponent } from './pages/usuario/add-usuario/add-usuario.component';
-import { FacturaPdfComponent } from './components/factura-pdf/factura-pdf.component';
-import { FacturaFormComponent } from './components/factura-form/factura-form.component';
-import { FormsModule } from '@angular/forms';
+import { UsuarioComponent } from './pages/usuario/usuario.component';
 
 
 @NgModule({
@@ -60,10 +59,13 @@ import { FormsModule } from '@angular/forms';
     
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,BrowserAnimationsModule, FormsModule],
-  providers: [
-    provideClientHydration(),
-    provideHttpClient(withInterceptorsFromDi()),
-  ],
+ providers: [
+  provideClientHydration(),
+  provideHttpClient(
+    withFetch(),
+    withInterceptorsFromDi()
+  ),
+],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
