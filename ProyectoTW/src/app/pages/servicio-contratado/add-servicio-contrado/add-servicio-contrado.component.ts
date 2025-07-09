@@ -31,7 +31,7 @@ export class AddServicioContradoComponent {
        private servicioDetalle: ServicioDetalleService,
      private router: Router,
         private alertService: AlertService,
-      /* private inventarioService:InventarioService, */
+     
     private route: ActivatedRoute,
     private clienteService: ClienteService,
     private inventarioService: InventarioService
@@ -71,7 +71,7 @@ export class AddServicioContradoComponent {
   }
 
   ListServicios() {
-    this.servicioDetalle.getServicioDetalleAll().subscribe({
+    this.servicioDetalle.getServicioAll().subscribe({
       next: (data) => {
        
         this.serviciosDetalle=data;

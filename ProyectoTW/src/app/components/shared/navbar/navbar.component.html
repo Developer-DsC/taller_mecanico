@@ -58,6 +58,16 @@
             >Contáctanos</a
           >
         </li>
+        <li
+          class="nav-item"
+          *ngIf="userRole === 'admin' || userRole === 'tecnico'"
+        >
+          <a class="nav-link nav-box" aria-current="page"  routerLink="/cita/agendar"
+            >Agendar Cita</a
+          >
+        </li>
+        
+
         <li class="nav-item" *ngIf="userRole === 'admin'">
           <a
             class="nav-link nav-box"
@@ -66,7 +76,10 @@
             >Inventario</a
           >
         </li>
-        <li class="nav-item" *ngIf="userRole === 'admin' || userRole === 'tecnico'">
+        <li
+          class="nav-item"
+          *ngIf="userRole === 'admin' || userRole === 'tecnico'"
+        >
           <a class="nav-link nav-box" aria-current="page" routerLink="/cliente"
             >Clientes</a
           >
@@ -74,10 +87,7 @@
         <li
           class="nav-item"
           *ngIf="userRole === 'admin' || userRole === 'tecnico'"
-        >
-         
-          
-        </li>
+        ></li>
         <!-- ✅ Nueva opción para Usuarios -->
         <li class="nav-item" *ngIf="userRole === 'admin'">
           <a class="nav-link nav-box" aria-current="page" routerLink="/usuario"
@@ -88,6 +98,7 @@
           class="nav-item"
           *ngIf="userRole === 'admin' || userRole === 'tecnico'"
         >
+        
           <a
             class="nav-link nav-box"
             aria-current="page"
@@ -95,6 +106,7 @@
             >Servicios Contratados</a
           >
         </li>
+        
       </ul>
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">

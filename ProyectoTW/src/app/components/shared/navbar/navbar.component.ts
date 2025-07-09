@@ -11,48 +11,23 @@ import { ChangeDetectorRef } from '@angular/core';
 export class NavbarComponent implements OnInit {
   token: boolean = false;
   userRole: string = '';
-  
 
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private cdr: ChangeDetectorRef  // Inyecta ChangeDetectorRef
-  ) {
-    this.checkToken();
-  }
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.checkUserRole();
-     this.userRole = this.authService.getUserRole();
+    // Suscribirse al rol y actualizar
+    this.authService.userRole$.subscribe(role => {
+      this.userRole = role;
+      this.token = !!role; // Si hay rol, hay token
+    });
   }
 
-  // Función para verificar el estado del token
-  checkToken() {
-    if (this.authService.getTokenCookie()) {
-      this.token = true;
-    } else {
-      this.token = false;
-    }
-  }
-
-  // Función para obtener el rol del usuario
-  checkUserRole() {
-    this.checkToken();
-  
-    if (this.token) {
-      this.userRole = this.authService.getUserRole();
-     
-      this.cdr.detectChanges(); // 🔄 Asegura que la vista se actualice
-    }
-  }
-  
-
-  // Función para eliminar el token y redirigir
   tokenDelete() {
-    this.authService.deleteTokenCookie();  // Elimina el token
-    this.token = false;
-    this.userRole = '';
-    this.cdr.detectChanges();  // Forzar la detección de cambios para actualizar la vista
-    this.router.navigate(['/']);  // Redirige al home
+    this.authService.deleteTokenCookie(); // Elimina token + borra el rol
+    this.router.navigate(['/']);
   }
 }
+

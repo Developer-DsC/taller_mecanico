@@ -8,6 +8,7 @@ const ServiceDetalleController = require('../controllers/service_detalle.control
 const UsuarioController = require('../controllers/usuario.controller');
 const FacturaController = require('../controllers/factura.controller');
 const FacturaDetalleController = require('../controllers/factura_detalle.controller');
+const CitaController = require('../controllers/cita.controller');
 
 routerUsers.post('/register', UserController.register);
 routerUsers.post('/login',UserController.login); 
@@ -56,5 +57,11 @@ routerUsers.get('/factura-detalles/:id', FacturaDetalleController.getDetallesByF
 
 
 routerUsers.get('/servicio/:id', ServiceDetalleController.getServicioById);
+
+routerUsers.get('/cita',CitaController.listarCita);
+routerUsers.post('/cita', CitaController.crearCita);
+routerUsers.get('/cita/:id', CitaController.obtenerCitaPorId);
+routerUsers.put('/cita/:id', CitaController.actualizarCita);
+routerUsers.delete('/cita/eliminar/:id', CitaController.eliminarCita);
 
 module.exports = routerUsers;   

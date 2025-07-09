@@ -1,6 +1,6 @@
 const db = require('../config/db.js')
 
-const create = async({nombre, telefono, email, direccion})=>{
+const crear = async({nombre, telefono, email, direccion})=>{
     const query = {
         text:
         'CALL insertar_cliente($1, $2, $3, $4)',
@@ -66,7 +66,7 @@ const filterCliente = async (nombre) => {
 
 
 const ClienteModel = {
-    create,
+    crear,
     findAllClientes,
     updateCliente,
     deleteCliente,

@@ -26,7 +26,7 @@ getFacturaById(id: number) {
     return this.http.post(`${this.apiUrl}/servicio-detalle`, servicioDetalle);
   }
 
-  getServicioDetalleAll(): Observable<any[]> {
+  getServicioAll(): Observable<any[]> {
     return this.http.get<any>(`${this.apiUrl}/servicios`).pipe(
       map((response) => response.data) // Extrae el arreglo "data" de la respuesta
     );

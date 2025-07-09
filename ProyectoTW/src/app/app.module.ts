@@ -32,6 +32,20 @@ import { ServiciosComponent } from './pages/servicios/servicios.component';
 import { UbicacionComponent } from './pages/ubicacion/ubicacion.component';
 import { AddUsuarioComponent } from './pages/usuario/add-usuario/add-usuario.component';
 import { UsuarioComponent } from './pages/usuario/usuario.component';
+import { CitaComponent } from './pages/cita/cita.component';
+import { AgendarCitaComponent } from './pages/cita/agendar-cita/agendar-cita.component';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core'; // para fechas nativas
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+
+import { MatSelectModule } from '@angular/material/select';
+
+import { MatButtonModule } from '@angular/material/button';
+
 
 
 @NgModule({
@@ -55,10 +69,15 @@ import { UsuarioComponent } from './pages/usuario/usuario.component';
     UsuarioComponent,
     AddUsuarioComponent,
     FacturaPdfComponent,
-    FacturaFormComponent
-    
+    FacturaFormComponent,
+    CitaComponent,
+    AgendarCitaComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,BrowserAnimationsModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,BrowserAnimationsModule, FormsModule,  MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,MatIconModule,CommonModule,MatSelectModule,MatButtonModule
+  ],
  providers: [
   provideClientHydration(),
   provideHttpClient(
