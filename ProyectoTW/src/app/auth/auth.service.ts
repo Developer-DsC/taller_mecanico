@@ -35,18 +35,22 @@ export class AuthService {
       );
   }
 
-  setUserRoleFromToken() {
+ setUserRoleFromToken() {
   const token = this.getTokenCookie();
-  if (!token) return;
+  if (!token) {
+    this.userRoleSubject.next('');
+    return;
+  }
 
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
-   
-    this.userRoleSubject.next(payload.rol); // ✅ ACTUALIZA EL SUBJECT
+    this.userRoleSubject.next(payload.rol || '');
   } catch (error) {
-    console.error('Error al decodificar el token en setUserRoleFromToken:', error);
+    console.error('Error decoding token:', error);
+    this.userRoleSubject.next('');
   }
 }
+
 
 
   setTokenCookie(token: string) {
