@@ -1,32 +1,28 @@
 const ClienteModel = require('./../models/cliente.model.js')
 
-const createCliente = async(req, res) => {
-    try {
+const createCliente = async (req, res) => {
+  try {
+    const { nombre, telefono, email, direccion } = req.body;
 
-        const { nombre, telefono, email, direccion } = req.body;
+    // Usar la función correcta y await para la promesa
+    const clienteCreate = await ClienteModel.crear({
+      nombre,
+      telefono,
+      email,
+      direccion,
+    });
 
-       
-        // Enviamos todos los valores esperados por la consulta
-        const clienteCreate = ClienteModel.create({
-            nombre,
-            telefono,
-            email,
-            direccion
-        });
-
-        return res.status(201).json({ ok: true, msg: "Cliente creado", data: clienteCreate });
-
-    } catch (error) {
-        if (error.code === 'P0001') {
-            // Error lanzado desde PostgreSQL (RAISE EXCEPTION)
-            res.status(400).json({ error: error.message });
-          } else {
-            // Otros errores
-            console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
-          }
+    return res.status(201).json({ ok: true, msg: "Cliente creado", data: clienteCreate });
+  } catch (error) {
+    if (error.code === 'P0001') {
+      res.status(400).json({ error: error.message });
+    } else {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
+  }
 };
+
 
 // Listar todos los clientes
 const listClientes = async(req, res) => {
@@ -55,12 +51,11 @@ const listClienteId = async(req, res) => {
 const updateCliente = async(req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, telefono, email, direccion } = req.body;
+        const { nombre, telefono, direccion } = req.body;
 
         const clienteUpdated = await ClienteModel.updateCliente(id, {
             nombre,
             telefono,
-            email,
             direccion
         });
 

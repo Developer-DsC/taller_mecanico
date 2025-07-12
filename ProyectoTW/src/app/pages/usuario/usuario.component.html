@@ -1,7 +1,11 @@
 <!-- usuario.component.html -->
 <div class="mx-auto w-75 p-1">
-  <!-- botón de Nuevo... -->
-
+   <input
+  type="text"
+  class="form-control my-3"
+  placeholder="Buscar cliente por nombre"
+  (input)="onBuscar($event)"
+>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -13,7 +17,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of usuarios; let i = index">
+      <tr *ngFor="let item of usuarioFiltrados$ | async; let i = index">
         <th scope="row">{{ i + 1 }}</th>
         <td>{{ item.nombre }}</td>
         <td>{{ item.email }}</td>
@@ -21,7 +25,7 @@
         <td class="d-flex">
           <!-- Editar -->
           <a
-            [routerLink]="['/usuario/add', item.usuario_id]"
+            [routerLink]="['/usuario/edit', item.usuario_id]"
             class="btn btn-outline-success p-1 d-flex align-items-center"
           >
             <span>Editar</span>

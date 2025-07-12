@@ -6,9 +6,9 @@ const UsuarioModel = require('../models/usuario.model');
 // Crear nuevo usuario
 const create = async (req, res) => {
     try {
-        const { nombre, email, password_hash, rol } = req.body;
+        const { nombre, email, password_hash, rol, telefono, direccion } = req.body;
 
-        const emailExists = await UserModel.findOneUserEmail(email);
+        const emailExists = await UsuarioModel.findOneUserEmail(email);
         if (emailExists) {
             return res.status(409).json({ ok: false, msg: 'Email ya existe' });
         }
@@ -16,14 +16,16 @@ const create = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password_hash, salt);
 
-        const newUser = await UserModel.createUser({
+        const newUser = await UsuarioModel.createUser({
             nombre,
             email,
             password_hash: hashedPassword,
             rol,
+            telefono,
+            direccion,
         });
 
-        res.status(201).json({ ok: true, msg: newUser });
+        res.status(201).json({ ok: true, usuario: newUser });
     } catch (error) {
         console.error(error);
         res.status(500).json({ ok: false, msg: 'Error al crear usuario' });

@@ -11,13 +11,13 @@ import { AuthComponent } from './auth/auth.component';
 import { InventarioComponent } from './pages/inventario/inventario.component';
 import { AddRespuestoComponent } from './pages/inventario/add-respuestos/add-respuesto.component';
 import { ClienteComponent } from './pages/cliente/cliente.component';
-import { AddClienteComponent } from './pages/cliente/add-cliente/add-cliente.component';
 import { ServicioContratadoComponent } from './pages/servicio-contratado/servicio-contratado.component';
-import { AddServicioContradoComponent } from './pages/servicio-contratado/add-servicio-contrado/add-servicio-contrado.component';
 import { UsuarioComponent } from './pages/usuario/usuario.component';
-import { AddUsuarioComponent } from './pages/usuario/add-usuario/add-usuario.component';
+import { AgendarCitaClienteComponent } from './pages/cita/agendar-cita-cliente/agendar-cita-cliente.component';
 import { AgendarCitaComponent } from './pages/cita/agendar-cita/agendar-cita.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AddClienteComponent } from './pages/cliente/add-cliente/add-cliente.component';
+import { AddUsuarioComponent } from './pages/usuario/add-usuario/add-usuario.component';
 
 const routes: Routes = [
   { path: 'servicios', component: ServiciosComponent, data: { animation: 'ServiciosPage', index: 1 } },
@@ -26,6 +26,7 @@ const routes: Routes = [
   { path: 'acerca-de', component: AcercaDeComponent, data: { animation: 'AcercaDePage', index: 4 } },
   { path: 'contactanos', component: ContactanosComponent, data: { animation: 'ContactanosPage', index: 5 } },
   { path: 'register', component: AuthComponent, data: { animation: 'RegisterPage', index: 6 } },
+  { path: 'agendar-cita-cliente', component: AgendarCitaClienteComponent, data: { animation: 'AgendarCitaClientePage', index: 6 } },
 
   // Aquí proteges rutas que requieran autenticación y roles específicos
   { 
@@ -40,6 +41,12 @@ const routes: Routes = [
     canActivate: [AuthGuard], 
     data: { roles: ['admin', 'tecnico'], animation: 'ClientePage', index: 9 } 
   },
+   {
+  path: 'cliente/edit/:id',
+  component: AddClienteComponent,
+  canActivate: [AuthGuard],
+  data: { roles: ['admin', 'tecnico'], animation: 'editClientePage', index: 10 }
+  },
   {
     path: 'servicio-contratado',
     component: ServicioContratadoComponent,
@@ -53,11 +60,18 @@ const routes: Routes = [
     data: { roles: ['admin'], animation: 'UsuarioPage', index: 13 }
   },
   {
+    path: 'usuario/edit/:id',
+    component: AddUsuarioComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['admin'], animation: 'editUsuarioPage', index: 13 }
+  },
+  {
     path: 'cita/agendar',
     component: AgendarCitaComponent,
     canActivate: [AuthGuard],
     data: { roles: ['admin', 'tecnico'], animation: 'AgendarCitaPage', index: 16 }
   },
+  
 
   { path: '', redirectTo: '/servicios', pathMatch: 'full' },
   { path: '**', redirectTo: '/servicios', pathMatch: 'full' },

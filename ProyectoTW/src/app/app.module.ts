@@ -45,6 +45,7 @@ import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 
 import { MatButtonModule } from '@angular/material/button';
+import { AgendarCitaClienteComponent } from './pages/cita/agendar-cita-cliente/agendar-cita-cliente.component';
 
 
 
@@ -71,7 +72,8 @@ import { MatButtonModule } from '@angular/material/button';
     FacturaPdfComponent,
     FacturaFormComponent,
     CitaComponent,
-    AgendarCitaComponent
+    AgendarCitaComponent,
+    AgendarCitaClienteComponent
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,BrowserAnimationsModule, FormsModule,  MatDatepickerModule,
     MatNativeDateModule,

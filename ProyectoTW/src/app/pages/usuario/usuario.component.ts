@@ -1,19 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Usuario, UsuarioService } from '../../services/usuario.service';
 import Swal from 'sweetalert2';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, Observable, switchMap } from 'rxjs';
 @Component({
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.css']  // ← corrigido
 })
-export class UsuarioComponent {
+export class UsuarioComponent implements OnInit {
   usuarios: Usuario[] = [];
+  filtroNombre$ = new BehaviorSubject<string>(''); // texto de búsqueda
+  usuarioFiltrados$!: Observable<Usuario[]>; // observable filtrado
 
   constructor(private usuarioService: UsuarioService) {}
 
   ngOnInit(): void {
-    this.obtenerUsuarios();
+    this.usuarioService.getUsuarios().subscribe(data=>{
+      this.usuarios = data;
+
+      this.usuarioFiltrados$ = this.filtroNombre$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((nombre) =>
+        new Observable<Usuario[]>(observer => {
+          const resultado = this.usuarios.filter(u =>
+            u.nombre.toLowerCase().includes(nombre.toLowerCase())
+          );
+          observer.next(resultado);
+          observer.complete();
+        })
+    )
+      );
+      this.filtroNombre$.next(''); // muestra todo al inicio
+    });
   }
+
+
+
+
+  onBuscar(event: Event): void {
+  const valor = (event.target as HTMLInputElement).value;
+  this.filtroNombre$.next(valor);
+}
 
   obtenerUsuarios(): void {
     this.usuarioService.getUsuarios().subscribe(
