@@ -15,14 +15,16 @@ export class AuthService {
 
   private userRoleSubject = new BehaviorSubject<string>('');
   userRole$ = this.userRoleSubject.asObservable();
+  
   constructor(
     private httpClient: HttpClient,
     private cokkieService: CookieService
   ) {this.setUserRoleFromToken();}
 
-  signUp(register: Register): Observable<Register> {
-    return this.httpClient.post<Register>(`${this.API_URL}/register`, register);
-  }
+ signUp(usuario: any): Observable<any> {
+  return this.httpClient.post(`${this.API_URL}/usuarios/crear`, usuario);
+}
+
 
   signIn(login: Login): Observable<LoginResponse> {
     return this.httpClient

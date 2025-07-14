@@ -2,6 +2,27 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+interface Cita {
+  cita_id: number;
+  usuario_id: number | null;
+  servicio_id: number;
+  fecha: string;
+  hora: string;
+  estado: string;
+  observaciones: string;
+  creado_en: string;
+}
+
+interface CitasResponse {
+  ok: boolean;
+  data: Cita[];
+}
+
+interface CitaResponse {
+  ok: boolean;
+  data: Cita;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,12 +31,12 @@ export class CitaService {
 
   constructor(private http: HttpClient) {}
 
-  getCitas(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getCitas(): Observable<CitasResponse> {
+    return this.http.get<CitasResponse>(this.apiUrl);
   }
 
-  getCitaPorId(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  getCitaPorId(id: number): Observable<CitaResponse> {
+    return this.http.get<CitaResponse>(`${this.apiUrl}/${id}`);
   }
 
   crearCita(cita: any): Observable<any> {

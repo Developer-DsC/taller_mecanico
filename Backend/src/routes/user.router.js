@@ -10,7 +10,6 @@ const FacturaController = require('../controllers/factura.controller');
 const FacturaDetalleController = require('../controllers/factura_detalle.controller');
 const CitaController = require('../controllers/cita.controller');
 
-routerUsers.post('/register', UserController.register);
 routerUsers.post('/login',UserController.login); 
 routerUsers.get('/profileUser',AuthMiddleware,UserController.profileUser); 
 

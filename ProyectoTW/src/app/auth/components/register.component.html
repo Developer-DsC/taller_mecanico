@@ -32,15 +32,24 @@
                         class="form-control"
                         formControlName="nombre"
                       />
-                      <label class="form-label" for="form3Example1c">Nombre</label>
+                      <label class="form-label" for="form3Example1c"
+                        >Nombre</label
+                      >
                       <div
                         class="text-danger"
-                        *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched"
+                        *ngIf="
+                          registerForm.get('nombre')?.invalid &&
+                          registerForm.get('nombre')?.touched
+                        "
                       >
-                        <small *ngIf="registerForm.get('nombre')?.errors?.['required']">
+                        <small
+                          *ngIf="registerForm.get('nombre')?.errors?.['required']"
+                        >
                           El nombre es obligatorio.
                         </small>
-                        <small *ngIf="registerForm.get('nombre')?.errors?.['pattern']">
+                        <small
+                          *ngIf="registerForm.get('nombre')?.errors?.['pattern']"
+                        >
                           Solo se permiten letras y espacios.
                         </small>
                       </div>
@@ -50,22 +59,34 @@
                   <!-- Email -->
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                    <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                    <div
+                      data-mdb-input-init
+                      class="form-outline flex-fill mb-0"
+                    >
                       <input
                         type="email"
                         id="form3Example3c"
                         class="form-control"
                         formControlName="email"
                       />
-                      <label class="form-label" for="form3Example3c">Email</label>
+                      <label class="form-label" for="form3Example3c"
+                        >Email</label
+                      >
                       <div
                         class="text-danger"
-                        *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                        *ngIf="
+                          registerForm.get('email')?.invalid &&
+                          registerForm.get('email')?.touched
+                        "
                       >
-                        <small *ngIf="registerForm.get('email')?.errors?.['required']">
+                        <small
+                          *ngIf="registerForm.get('email')?.errors?.['required']"
+                        >
                           El correo es obligatorio.
                         </small>
-                        <small *ngIf="registerForm.get('email')?.errors?.['email']">
+                        <small
+                          *ngIf="registerForm.get('email')?.errors?.['email']"
+                        >
                           Correo inválido (debe contener &#64;).
                         </small>
                       </div>
@@ -75,7 +96,10 @@
                   <!-- Contraseña con toggle -->
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                    <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                    <div
+                      data-mdb-input-init
+                      class="form-outline flex-fill mb-0"
+                    >
                       <div class="input-group">
                         <input
                           [type]="showPassword ? 'text' : 'password'"
@@ -91,18 +115,30 @@
                           (mouseleave)="showPassword = false"
                           tabindex="-1"
                         >
-                          <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                          <i
+                            class="fas"
+                            [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                          ></i>
                         </button>
                       </div>
-                      <label class="form-label" for="form3Example4c">Contraseña</label>
+                      <label class="form-label" for="form3Example4c"
+                        >Contraseña</label
+                      >
                       <div
                         class="text-danger"
-                        *ngIf="registerForm.get('password_hash')?.invalid && registerForm.get('password_hash')?.touched"
+                        *ngIf="
+                          registerForm.get('password_hash')?.invalid &&
+                          registerForm.get('password_hash')?.touched
+                        "
                       >
-                        <small *ngIf="registerForm.get('password_hash')?.errors?.['required']">
+                        <small
+                          *ngIf="registerForm.get('password_hash')?.errors?.['required']"
+                        >
                           La contraseña es obligatoria.
                         </small>
-                        <small *ngIf="registerForm.get('password_hash')?.errors?.['minlength']">
+                        <small
+                          *ngIf="registerForm.get('password_hash')?.errors?.['minlength']"
+                        >
                           Debe tener al menos 8 caracteres.
                         </small>
                       </div>
@@ -121,17 +157,76 @@
                         formControlName="rol"
                         aria-label=".form-select-sm example"
                       >
-                        <option disabled selected value="">Seleccione el rol</option>
-                        <option *ngFor="let role of availableRoles" [value]="role">
+                        <option disabled selected value="">
+                          Seleccione el rol
+                        </option>
+                        <option
+                          *ngFor="let role of availableRoles"
+                          [value]="role"
+                        >
                           {{ role | titlecase }}
                         </option>
                       </select>
                       <label class="form-label">Rol</label>
                       <div
                         class="text-danger mt-1"
-                        *ngIf="registerForm.get('rol')?.invalid && registerForm.get('rol')?.touched"
+                        *ngIf="
+                          registerForm.get('rol')?.invalid &&
+                          registerForm.get('rol')?.touched
+                        "
                       >
                         <small>Debe seleccionar un rol.</small>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Teléfono -->
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-phone fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="telefono"
+                      />
+                      <label class="form-label">Teléfono</label>
+                      <div
+                        class="text-danger"
+                        *ngIf="
+                          registerForm.get('telefono')?.invalid &&
+                          registerForm.get('telefono')?.touched
+                        "
+                      >
+                        <small
+                          *ngIf="registerForm.get('telefono')?.errors?.['required']"
+                        >
+                          El teléfono es obligatorio.
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Dirección -->
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-map-marker-alt fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="direccion"
+                      />
+                      <label class="form-label">Dirección</label>
+                      <div
+                        class="text-danger"
+                        *ngIf="
+                          registerForm.get('direccion')?.invalid &&
+                          registerForm.get('direccion')?.touched
+                        "
+                      >
+                        <small
+                          *ngIf="registerForm.get('direccion')?.errors?.['required']"
+                        >
+                          La dirección es obligatoria.
+                        </small>
                       </div>
                     </div>
                   </div>

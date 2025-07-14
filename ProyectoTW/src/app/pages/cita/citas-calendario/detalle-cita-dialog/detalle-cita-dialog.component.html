@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Detalles de la Cita</h2>
+
+<mat-dialog-content>
+ <p><strong>Servicio:</strong> Servicio #{{ data.servicio_id }}</p>
+
+  <p><strong>Fecha:</strong> {{ data.fecha }}</p>
+  <p><strong>Hora:</strong> {{ data.hora }}</p>
+  <p><strong>Observaciones:</strong> {{ data.observaciones || 'Ninguna' }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

@@ -88,12 +88,13 @@ guardarCita() {
       return;
     }
 
-    const cita = {
-      ...this.citaForm.value,
-      fecha: this.formatearFecha(this.citaForm.value.fecha),
-      cliente_id,
-      estado: 'PENDIENTE'
-    };
+   const cita = {
+  ...this.citaForm.value,
+  fecha: this.formatearFecha(this.citaForm.value.fecha),
+  usuario_id: cliente_id,
+  estado: 'PENDIENTE'
+};
+
 
     console.log('Objeto cita a enviar:', cita);
 

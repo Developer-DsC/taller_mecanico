@@ -31,12 +31,15 @@ export class RegisterComponent {
     private router: Router,
     private alertService: AlertService
   ) {
-    this.registerForm = this.formBuilder.group({
-      nombre: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password_hash: ['', [Validators.required, Validators.minLength(8)]],
-      rol: [''],
-    });
+   this.registerForm = this.formBuilder.group({
+  nombre: ['', [Validators.required]],
+  email: ['', [Validators.required, Validators.email]],
+  password_hash: ['', [Validators.required, Validators.minLength(8)]],
+  telefono: ['', Validators.required],
+  direccion: ['', Validators.required],
+  rol: ['']
+});
+
 
      this.authService.userRole$.subscribe((rol) => {
     this.rolUsuario = rol;

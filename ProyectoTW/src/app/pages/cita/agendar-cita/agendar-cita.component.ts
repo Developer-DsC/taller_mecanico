@@ -5,7 +5,6 @@ import { ServicioDetalleService } from '../../../services/servicio-detalle.servi
 import {clientes} from '../../../models/cliente.model';
 import { servicios } from '../../../models/servicio.model';
 import { CitaService } from '../../../services/cita.service';
-
 @Component({
   selector: 'app-agendar-cita',
   templateUrl: './agendar-cita.component.html',
