@@ -45,8 +45,15 @@ import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 
 import { MatButtonModule } from '@angular/material/button';
+import { AgendarCitaClienteComponent } from './pages/cita/agendar-cita-cliente/agendar-cita-cliente.component';
 
 
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { DetalleCitaDialogComponent } from './pages/cita/citas-calendario/detalle-cita-dialog/detalle-cita-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
+import { CitasCalendarioComponent } from './pages/cita/citas-calendario/citas-calendario.component';
+import { CitasCalendarioClienteComponent } from './pages/cita/citas-calendario-cliente/citas-calendario-cliente.component';
 
 @NgModule({
   declarations: [
@@ -71,13 +78,17 @@ import { MatButtonModule } from '@angular/material/button';
     FacturaPdfComponent,
     FacturaFormComponent,
     CitaComponent,
-    AgendarCitaComponent
+    AgendarCitaComponent,
+    AgendarCitaClienteComponent,
+    CitasCalendarioComponent,
+    DetalleCitaDialogComponent,
+    CitasCalendarioComponent,
+    CitasCalendarioClienteComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule,BrowserAnimationsModule, FormsModule,  MatDatepickerModule,
+  imports: [MatDialogModule,FullCalendarModule, BrowserModule, AppRoutingModule, ReactiveFormsModule, BrowserAnimationsModule, FormsModule, MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    MatInputModule,MatIconModule,CommonModule,MatSelectModule,MatButtonModule
-  ],
+    MatInputModule, MatIconModule, CommonModule, MatSelectModule, MatButtonModule,  ],
  providers: [
   provideClientHydration(),
   provideHttpClient(

@@ -2,36 +2,7 @@ const UserModel = require("./../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const register = async (req, res) => {
- 
 
-  try {
-    const { nombre, email, password_hash, rol } = req.body;
-
-    const emailFind = await UserModel.findOneUserEmail(email);
-    if (emailFind) {
-      return res.status(409).json({ ok: false, msg: "Email already exists" });
-    }
-
-    const saltRounds = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash(password_hash, saltRounds);
-
-    const userCreate = await UserModel.createUser(
-      nombre,
-      email,
-      passwordHash,
-      rol
-    );
-
-    return res.status(201).json({ ok: true, msg: userCreate });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      ok: false,
-      msg: "Server error during registration",
-    });
-  }
-};
 
 const login = async (req, res) => {
   try {
@@ -93,7 +64,6 @@ const profileUser = async (req, res) => {
 };
 
 const UserController = {
-  register,
   login,
   profileUser,
 };

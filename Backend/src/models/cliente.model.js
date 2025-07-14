@@ -3,14 +3,15 @@ const db = require('../config/db.js')
 const crear = async({nombre, telefono, email, direccion})=>{
     const query = {
         text:
-        'CALL insertar_cliente($1, $2, $3, $4)',
-        values:[nombre, telefono, email, direccion]
+        'CALL insertar_cliente($1, $2, $3)',
+        values:[nombre, telefono, direccion]
     }
 
     const {rows} = await db.query(query)
     return rows[0];
 }
 
+9
 // Listar todos los clientes
 const findAllClientes = async () => {
     const query = {
@@ -22,7 +23,7 @@ const findAllClientes = async () => {
 
 const filterClienteId = async (id) => {
     const query = {
-        text: 'SELECT * FROM filter_cliente_por_id($1);',
+        text: 'SELECT * FROM clientes where cliente_id=$1;',
         values: [id]
     };
 
@@ -31,10 +32,10 @@ const filterClienteId = async (id) => {
 };
 
 // Actualizar un inventario
-const updateCliente = async (id, { nombre, telefono, email, direccion }) => {
+const updateCliente = async (id, { nombre, telefono, direccion }) => {
     const query = {
-        text: 'CALL actualizar_cliente($1, $2, $3, $4, $5);', // Llamar al procedimiento almacenado
-        values: [id, nombre, telefono, email, direccion]
+        text: 'CALL actualizar_cliente($1, $2, $3,$4);', // Llamar al procedimiento almacenado
+        values: [id, nombre, telefono, direccion]
     };
 
     await db.query(query); // Ejecutar la actualización

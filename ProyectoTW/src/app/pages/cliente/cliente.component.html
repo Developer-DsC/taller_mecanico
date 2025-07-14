@@ -5,6 +5,12 @@
       data-bs-target="#cliente"
       >Nuevo</a
     >
+    <input
+  type="text"
+  class="form-control my-3"
+  placeholder="Buscar cliente por nombre"
+  (input)="onBuscar($event)"
+>
     <div class="modal" id="cliente">
       <div class="modal-dialog modal-lg">
         <div class="modal-content container-fluid modalClose">
@@ -18,24 +24,22 @@
           <th scope="col">#</th>
           <th scope="col">Nombre</th>
           <th scope="col">telefono</th>
-          <th scope="col">email</th>
           <th scope="col">direccion</th>
           <th scope="col">Acciones</th>
 
         </tr>
       </thead>
-      <tbody *ngFor="let item of clientes, let i=index">
+      <tbody *ngFor="let item of clientesFiltrados$ |async; let i=index">
         <tr>
           <th scope="row">{{i+1}}</th>
           <td>{{ item.nombre }}</td>
           <td>{{ item.telefono }}</td>
-          <td>{{ item.email }}</td>
           <td>{{ item.direccion }}</td>
          
           <td class="d-flex">
             <a
               type="button"
-              [routerLink]="['/cliente/add', item.cliente_id]"
+              [routerLink]="['/cliente/edit/', item.cliente_id]"
               class="btn btn-lg btn-outline-success d-flex justify-content-center align-items-center p-1"
             >
               <span> Editar</span>

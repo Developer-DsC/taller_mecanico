@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+
 
 export interface Inventario {
   id: number;

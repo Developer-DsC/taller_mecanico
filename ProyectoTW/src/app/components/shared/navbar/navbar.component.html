@@ -58,6 +58,15 @@
             >Contáctanos</a
           >
         </li>
+         <li class="nav-item" *ngIf="userRole === 'cliente' ">
+          <a
+            class="nav-link nav-box"
+            aria-current="page"
+            routerLink="/agendar-cita-cliente"
+            >Agenda tu cita</a
+          >
+          >
+        </li>
         <li
           class="nav-item"
           *ngIf="userRole === 'admin' || userRole === 'tecnico'"

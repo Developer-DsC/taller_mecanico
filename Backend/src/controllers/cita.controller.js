@@ -1,11 +1,12 @@
 const CitaModel = require('./../models/cita.model.js');
 
+// Crear nueva cita
 const crearCita = async (req, res) => {
   try {
-    const { cliente_id, servicio_id, fecha, hora, estado, observaciones } = req.body;
+    const { usuario_id, servicio_id, fecha, hora, estado, observaciones } = req.body;
 
     const citaCreada = await CitaModel.crear({
-      cliente_id,
+      usuario_id,
       servicio_id,
       fecha,
       hora,
@@ -24,6 +25,7 @@ const crearCita = async (req, res) => {
   }
 };
 
+// Listar citas
 const listarCita = async (req, res) => {
   try {
     const citas = await CitaModel.listar();
@@ -34,6 +36,7 @@ const listarCita = async (req, res) => {
   }
 };
 
+// Obtener cita por ID
 const obtenerCitaPorId = async (req, res) => {
   try {
     const { id } = req.params;
@@ -50,13 +53,14 @@ const obtenerCitaPorId = async (req, res) => {
   }
 };
 
+// Actualizar cita
 const actualizarCita = async (req, res) => {
   try {
     const { id } = req.params;
-    const { cliente_id, servicio_id, fecha, hora, estado, observaciones } = req.body;
+    const { usuario_id, servicio_id, fecha, hora, estado, observaciones } = req.body;
 
     const citaActualizada = await CitaModel.actualizar(id, {
-      cliente_id,
+      usuario_id,
       servicio_id,
       fecha,
       hora,
@@ -75,6 +79,7 @@ const actualizarCita = async (req, res) => {
   }
 };
 
+// Eliminar cita
 const eliminarCita = async (req, res) => {
   try {
     const { id } = req.params;

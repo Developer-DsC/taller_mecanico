@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ClienteService } from '../../services/cliente.service';
 import { AlertService } from '../../services/aler.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -8,13 +10,40 @@ import Swal from 'sweetalert2';
   templateUrl: './cliente.component.html',
   styleUrl: './cliente.component.css',
 })
-export class ClienteComponent {
-  clientes: any[] = []; // Asegúrate de que sea un arreglo
+export class ClienteComponent implements OnInit {
+ clientes: any[] = []; // todos los datos
+clientesFiltrados$!: Observable<any[]>; // observable filtrado
+private filtroNombre$ = new BehaviorSubject<string>('');  // texto de búsqueda
+
 
   constructor(private clienteService: ClienteService, private alertService:AlertService) {}
   ngOnInit(): void {
-    this.obtenerInventarios();
-  }
+  this.clienteService.getCliente().subscribe(data => {
+    this.clientes = data;
+
+    this.clientesFiltrados$ = this.filtroNombre$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((nombre) =>
+        new Observable<any[]>(observer => {
+          const resultado = this.clientes.filter(c =>
+            c.nombre.toLowerCase().includes(nombre.toLowerCase())
+          );
+          observer.next(resultado);
+          observer.complete();
+        })
+      )
+    );
+
+    this.filtroNombre$.next(''); // muestra todo al inicio
+  });
+}
+
+onBuscar(event: Event): void {
+  const valor = (event.target as HTMLInputElement).value;
+  this.filtroNombre$.next(valor);
+}
+
 
   obtenerInventarios(): void {
     this.clienteService.getCliente().subscribe(
