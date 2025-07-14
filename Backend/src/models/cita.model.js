@@ -25,12 +25,15 @@ const listar = async () => {
 };
 
 // Obtener cita por ID con JOIN a clientes y servicios
+// Obtener cita por ID con JOIN a clientes y servicios incluyendo IDs y nombres
 const obtenerPorId = async (cita_id) => {
   const query = {
     text: `
       SELECT 
         c.cita_id,
+        c.usuario_id,
         cli.nombre AS cliente_nombre,
+        c.servicio_id,
         s.descripcion AS servicio_descripcion,
         c.fecha,
         c.hora,
@@ -46,6 +49,7 @@ const obtenerPorId = async (cita_id) => {
   const { rows } = await db.query(query);
   return rows[0]; // Retorna una cita o undefined
 };
+
 
 // Actualizar cita
 const actualizar = async (cita_id, { usuario_id, servicio_id, fecha, hora, estado, observaciones }) => {
