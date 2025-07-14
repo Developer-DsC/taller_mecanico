@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DetalleCitaDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log('Datos recibidos en diálogo:', data);
+    
   }
 }
 

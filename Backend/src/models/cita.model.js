@@ -24,10 +24,23 @@ const listar = async () => {
   return rows;
 };
 
-// Obtener cita por ID
+// Obtener cita por ID con JOIN a clientes y servicios
 const obtenerPorId = async (cita_id) => {
   const query = {
-    text: 'SELECT * FROM cita WHERE cita_id = $1;',
+    text: `
+      SELECT 
+        c.cita_id,
+        cli.nombre AS cliente_nombre,
+        s.descripcion AS servicio_descripcion,
+        c.fecha,
+        c.hora,
+        c.estado,
+        COALESCE(c.observaciones, 'Ninguna') AS observaciones
+      FROM cita c
+      LEFT JOIN clientes cli ON c.usuario_id = cli.usuario_id
+      LEFT JOIN servicios s ON c.servicio_id = s.servicio_id
+      WHERE c.cita_id = $1;
+    `,
     values: [cita_id],
   };
   const { rows } = await db.query(query);
